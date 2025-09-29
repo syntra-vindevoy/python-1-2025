@@ -21,4 +21,4 @@ e3 = round(e3,2)
 assert e1==e2
 assert e1==e3
 
-
+#math.log10() hiermee kan je de lengte van een getal bereken print(int(math.log0(a)+1)
