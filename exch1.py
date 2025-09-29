@@ -3,7 +3,7 @@ def main():
     minutes = 42
     hours = 0
     days = 0
-    years = 0
+    years = 0 #define variables
     print(convert_to_seconds(years, days, hours, minutes, seconds))
 
 def convert_to_seconds(y, d, h, m, s):
