@@ -13,6 +13,7 @@ def starred_name(last_name, first_name):
     prefix = (max_char - 2 - len (name)) - postfix
     print("*" * prefix, name, "*" * postfix)
 
+#print resulaten
 print(line_with_stars("Yves"))
 print(line_with_stars("Brent"))
 print(line_with_stars(""))
