@@ -47,7 +47,67 @@ def do_four(f, value):
 def print_spam(value):
     print(value)
 
-do_twice(print_spam, "spam")
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Extra oef 3 (TP2_ch3_14.3) Note: This exercise should be done using only the statements and other features we
+# have learned so far.
+# 1. Write a function that draws a grid with lines of "-" and cross-section being "+"
+print("+-----+-----+")
+print("|     |     |")
+print("|     |     |")
+print("|     |     |")
+print("|     |     |")
+print("|     |     |")
+print("+-----+-----+")
+print("|     |     |")
+print("|     |     |")
+print("|     |     |")
+print("|     |     |")
+print("|     |     |")
+print("+-----+-----+")
+print()
+print("*"*100)
+print()
+
+def horizontal_line_with_corners(squares:int, size:int, side:str, corner:str):
+    for i in range(squares):
+        print(corner, end="")
+        if i >= squares-1: break
+        print(side*(size-2), end="")
+    print()
+    return None
+
+def vertical_line_without_corners(squares:int, size:int, side:str, filler:str):
+    for i in range(size-2):
+        for j in range(squares):
+            print(side, end="")
+            if j >= squares-1: break
+            print((" " * len(filler)) * (size-2), end="")   # Tracht filler hier in te plaatsen om modulair te werken
+        print()
+    return None
+
+def draw_grid(squares_size:int, squares_vert:int, squares_horz:int):
+    corner = '+'
+    side_vert = '|'
+    side_horz = ' - '
+    for i in range(squares_vert):
+        horizontal_line_with_corners(squares=squares_horz, size=squares_size, side=side_horz, corner=corner)
+        if i >= squares_horz: break
+        vertical_line_without_corners(squares=squares_horz, size=squares_size, side=side_vert, filler=side_horz)
+    horizontal_line_with_corners(squares=squares_horz, size=squares_size, corner=corner, side=side_horz)
+    # for i in range(squares_horz):
+    #     print(corner, end="")
+    #
+    #     for j in range(squares_size):
+    #         print(side_horz, end="")
+    #     print(corner)
+    #
+    #     for k in range(squares_vert):
+    #         for l in range(squares_horz+1):
+    #             print(side_vert, end="")
+    #             for m in range(squares_size):
+    #                 print(" ", end="")
+    #         print()
+
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Extra oef Yves
@@ -64,7 +124,9 @@ def main():
     # rectangle('H', 5, 4)
     # bottle_verse(10)
 
-    right_justify('monty')
+    # right_justify('monty')
+    # do_twice(print_spam, "spam")
+    draw_grid(squares_size=5, squares_vert=2, squares_horz=7)
 
 if __name__ == "__main__":
     main()
