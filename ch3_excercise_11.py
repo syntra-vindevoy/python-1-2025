@@ -33,7 +33,8 @@ def bottle_verse(beers:int):
 # prints the string with enough leading spaces so that the last letter of the string is in column 70 of the display.
 
 def right_justify(text:str):
-    print(text)
+
+    print(" " * (70 - len(text)) + text)
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Extra oef 2
 def repeated_call(func, number):
@@ -45,9 +46,9 @@ def hello_world():
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 def main():
-    triangle('L', 5)
-    rectangle('H', 5, 4)
-    bottle_verse(10)
+    # triangle('L', 5)
+    # rectangle('H', 5, 4)
+    # bottle_verse(10)
 
     right_justify('monty')
 
