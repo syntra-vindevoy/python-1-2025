@@ -1,4 +1,4 @@
-def say_hello(who: str):
+def say_hello(*who: str):
     print(f"Hello, {who}!")
 
 def main():                 # Standaard in elke code te zetten om "shadow names" te vermijden  (Gebruik met [if __name__ == "__main__":]    main())

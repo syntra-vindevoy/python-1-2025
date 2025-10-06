@@ -9,8 +9,8 @@
 #Versie Yves
 #   Position parameters kunnen worden gevuld zonder hun variabele naam ervor te zetten. Dit is niet altijd consistent en kan tot problemen zorgeb.
 #   Je kan een waarde per ongelijk in een verkeerde parameter zetten, zonder het te weten. Met een naam ervoor gebeurt dat niet.
-#               (*, ....      alle parameters NA het sterretje kunnen niet meer positioneel aangesproken worden
-def starred_name(*, last_name: str, first_name, total_width = 60, char = "*"):
+#               (*....      alle parameters NA het sterretje kunnen niet meer positioneel aangesproken worden
+def starred_name(*last_name: str, first_name, total_width = 60, char = "*"):
     #                        : str     door dit na een parameter te zetten, HINT je dat enkel een waarde geacepteerd wordt van dat specifieke type. (het runt, maar kan chrachen door logica "symantic error)
     #                                              total_width = 60        Door " = waarde" na een parameter te zetten geef je het een default waarde zodat een oproep van de methode die niet moet vermelden.
     #                                              total_width: int = 60        Je zet type verwachting vóór de default waarde
