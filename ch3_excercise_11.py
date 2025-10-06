@@ -17,6 +17,7 @@ def rectangle(brick:str = "=", width:int = 3, height:int = 3):
 # ----------------------------------------------------------------------------------------------------------------------------------
 # 3.11.5. Exercise
 # The song “99 Bottles of Beer” automated by verse:
+
 def bottle_verse(beers:int):
     if beers < 0: return    # Safety net
 
@@ -27,10 +28,28 @@ def bottle_verse(beers:int):
               f"Take one down, pass it around\n")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
+# Extra oef 1 (TP2_ch3_14.1
+# Write a function named right_justify that takes a string named s as a parameter and
+# prints the string with enough leading spaces so that the last letter of the string is in column 70 of the display.
+
+def right_justify(text:str):
+    print(text)
+# ----------------------------------------------------------------------------------------------------------------------------------
+# Extra oef 2
+def repeated_call(func, number):
+    for i in range(number):
+        func()
+
+def hello_world():
+    repeated_call("Hello world", 3)
+
+# ----------------------------------------------------------------------------------------------------------------------------------
 def main():
     triangle('L', 5)
     rectangle('H', 5, 4)
     bottle_verse(10)
+
+    right_justify('monty')
 
 if __name__ == "__main__":
     main()
