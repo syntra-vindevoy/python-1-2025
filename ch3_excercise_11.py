@@ -51,36 +51,20 @@ def print_spam(value):
 # Extra oef 3 (TP2_ch3_14.3) Note: This exercise should be done using only the statements and other features we
 # have learned so far.
 # 1. Write a function that draws a grid with lines of "-" and cross-section being "+"
-print("+-----+-----+")
-print("|     |     |")
-print("|     |     |")
-print("|     |     |")
-print("|     |     |")
-print("|     |     |")
-print("+-----+-----+")
-print("|     |     |")
-print("|     |     |")
-print("|     |     |")
-print("|     |     |")
-print("|     |     |")
-print("+-----+-----+")
-print()
-print("*"*100)
-print()
 
 def horizontal_line_with_corners(squares:int, size:int, side:str, corner:str):
-    for i in range(squares):
+    for i in range(squares+1):
         print(corner, end="")
-        if i >= squares-1: break
+        if i > squares-1: break
         print(side*(size-2), end="")
     print()
     return None
 
 def vertical_line_without_corners(squares:int, size:int, side:str, filler:str):
     for i in range(size-2):
-        for j in range(squares):
+        for j in range(squares+1):
             print(side, end="")
-            if j >= squares-1: break
+            if j > squares-1: break
             print((" " * len(filler)) * (size-2), end="")   # Tracht filler hier in te plaatsen om modulair te werken
         print()
     return None
@@ -94,29 +78,16 @@ def draw_grid(squares_size:int, squares_vert:int, squares_horz:int):
         if i >= squares_horz: break
         vertical_line_without_corners(squares=squares_horz, size=squares_size, side=side_vert, filler=side_horz)
     horizontal_line_with_corners(squares=squares_horz, size=squares_size, corner=corner, side=side_horz)
-    # for i in range(squares_horz):
-    #     print(corner, end="")
-    #
-    #     for j in range(squares_size):
-    #         print(side_horz, end="")
-    #     print(corner)
-    #
-    #     for k in range(squares_vert):
-    #         for l in range(squares_horz+1):
-    #             print(side_vert, end="")
-    #             for m in range(squares_size):
-    #                 print(" ", end="")
-    #         print()
-
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 # Extra oef Yves
-def repeated_call(func, number):
+# Uitleg over *args en **kwargs
+def repeated_call(func, number, *args, **kwargs):   # *args (argumenten), **kwargs ()
     for i in range(number):
-        func()
+        func(*args, **kwargs)
 
 def hello_world():
-    repeated_call("Hello world", 3)
+    repeated_call("Hello world", 3, name="Brent")
 
 # ----------------------------------------------------------------------------------------------------------------------------------
 def main():
