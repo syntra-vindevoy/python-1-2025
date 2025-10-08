@@ -7,7 +7,7 @@ sys.exit(0)
 print("hello", "world", sep="-", end="")
 
 me = "Yves Vindevogel"
-you = 'Brecht'
+you = "Brecht"
 
 
 print(type(me))
@@ -61,4 +61,3 @@ q
 # print("U behaalde" + str(int(i)  / 100) + "percent")
 
 print(len("Yves"))
-
