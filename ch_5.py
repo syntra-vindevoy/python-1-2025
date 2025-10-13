@@ -17,6 +17,7 @@ def main():
     else:
         print("Negative number")
 
+    # Best code
     print(f"{'Positive' if good_code(5)  else 'Negative'} number")
 
 if __name__ == "__main__":
