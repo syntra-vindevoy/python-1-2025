@@ -33,15 +33,15 @@ def parallelogram(side_horz:int, side_vert:int, angle:int):
         turtle.left(180-angle)
 
     turtle.mainloop()
-rectangle_poly = partial(parallelogram,angle=90)
-rhombus_poly = partial(parallelogram, parallelogram)
+rectangle_parl = partial(parallelogram,angle=90)
+rhombus_parl = partial(parallelogram)
 
 def main():
     make_turtle()
     #rectangle(side_horz=80, side_vert=40)
     #rhombus(side=50, angle=60)
-    #rectangle_poly(side_horz=80, side_vert=40)
-    rhombus_poly(side=50, angle=60)
+    #rectangle_parl(side_horz=80, side_vert=40)
+    rhombus_parl(side_horz=80, side_vert=40, angle=60)
 
 if __name__ == "__main__":
     main()
