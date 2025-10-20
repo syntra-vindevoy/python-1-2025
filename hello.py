@@ -42,7 +42,7 @@ print(2 * 7)    #int
 print(4 ** 2)   #int Math.Pow(4,2), Macht tot de 2de
 print(4 / 2)    #geeft altijd een float omdat het "delen" is. Geen "if" om te checken, het moet gwn snel gaan.
 print(2 / 3)    #oneindige getallen achter decimal is 16 na de komma
-print(4 // 3)   #resultaat 1
+print(4 // 3)   #resultaat 1    intiger deling (rest wegdoet)   6//4 is 1 met rest 2
 print(-4 // 3)  #resultaat -2
 print(7 % 2)    #resultaat 1        modulo = geeft de rest van een deling
 
