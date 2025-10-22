@@ -1,3 +1,6 @@
+from numpy.f2py.auxfuncs import throw_error
+
+
 def show_river():
     print("_"*40)
     print(f"Tijd: {tijd} minuten")
@@ -12,20 +15,22 @@ def move_boat():
     show_river()
 
     # Input en verifiëren ervan
-    absent_choice = True
-    a = None
-    b = None
-    while absent_choice:
-        a = input("Persoon 1: ")
-        if len(a) < 1: quit()
-        a = int(a)
+    while True:
+        try:
+            a = int(input("Persoon 1: "))
+            if a not in (links if boot_links else rechts): raise ValueError()
 
-        b = input("Persoon 2: ")
-        if len(b) > 0: b = int(b)
-        else: b = None
+            b = input("Persoon 2: ")
+            if len(b) > 0:
+                b = int(b)   # Geeft ValueError las het letters zijn, als er niets in staat ook
+                if b not in (links if boot_links else rechts): raise ValueError()
+            else: b = None
 
-        if a != b and a in (links if boot_links else rechts) and ((b is None) or b in (links if boot_links else rechts)): absent_choice = False
-        else: print(f"Foute input, maak een unieke keuze uit {links if boot_links else rechts}")
+            if a != b: break
+            else: raise ValueError()
+
+        except ValueError:
+            print(f"Foute input, maak een unieke keuze uit {links if boot_links else rechts}")
 
     if boot_links:
         if a in links:
@@ -52,8 +57,7 @@ def main():
     move_boat()
     if 17 <= tijd: print("Perfect! ", end="")
     elif 17 > tijd <= 19: print("Goed gedaan, maar het kan beter! ", end="")
-    elif 19 > tijd: print("Het kan beter ", end="")
-    # Kijken of de tijd meer dan 19 is, is niet nodig, het staat er voor de duidelijkheid.
+    else: print("Het kan beter ", end="")
     print(f"Je bracht iedereen naar de andere kant in {tijd} minuten.")
     #HIER PROGRAMMEREN
 
