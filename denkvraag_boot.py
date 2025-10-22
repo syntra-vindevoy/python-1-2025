@@ -1,4 +1,5 @@
 def show_river():
+    print("_"*40)
     print(f"Tijd: {tijd} minuten")
     print(links, end=" ")
     print("~"*20, end="")
@@ -23,8 +24,8 @@ def move_boat():
         if len(b) > 0: b = int(b)
         else: b = None
 
-        if a in (links if boot_links else rechts) and ((b is None) or b in (links if boot_links else rechts)): absent_choice = False
-        else: print(f"Foute input, kies uit {links if boot_links else rechts}")
+        if a != b and a in (links if boot_links else rechts) and ((b is None) or b in (links if boot_links else rechts)): absent_choice = False
+        else: print(f"Foute input, maak een unieke keuze uit {links if boot_links else rechts}")
 
     if boot_links:
         if a in links:
@@ -45,10 +46,15 @@ def move_boat():
     else: tijd += a
     boot_links = not boot_links
     if len(links) > 0: move_boat()
-    return
+    return tijd
 
 def main():
     move_boat()
+    if 17 <= tijd: print("Perfect! ", end="")
+    elif 17 > tijd <= 19: print("Goed gedaan, maar het kan beter! ", end="")
+    elif 19 > tijd: print("Het kan beter ", end="")
+    # Kijken of de tijd meer dan 19 is, is niet nodig, het staat er voor de duidelijkheid.
+    print(f"Je bracht iedereen naar de andere kant in {tijd} minuten.")
     #HIER PROGRAMMEREN
 
 if __name__ == "__main__":
