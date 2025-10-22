@@ -1,5 +1,4 @@
 import math
-from functools import partial
 import turtle
 
 from jupyturtle import make_turtle
@@ -21,15 +20,34 @@ def parallelogram(side_horz:int, side_vert:int, angle:int):
         turtle.forward(side_vert)
         turtle.left(180-angle)
 
-def triangle_test(angle_point:float, height:int, test:float):
+def triangle_hardcode():
+    angle_inner = 80
+    angle_leg = (180 - angle_inner) /2
+    height = 100
+    side = height * math.sin(angle_inner/2)
+
+    turtle.forward(height)
+    turtle.back(height)
+    turtle.left(angle_inner)
+    turtle.forward(height)
+    turtle.right(180-angle_leg)
+    turtle.forward(height*(math.tan(angle_inner/2)))
+
+def triangle_test(angle_point:float, height:int):
     turtle.forward(height)
     turtle.left(180-(180-angle_point)/2)
-    #test = math.sqrt(math.pow(height, 2)+math.pow(a, 2))*2
-    turtle.forward(math.sqrt(math.pow(height, 2) - math.pow(test, 2))*2)
-    #turtle.forward(height²-test²=c²)
+    turtle.forward((height*math.sin(angle_point/2)))
+
     turtle.left(180-(180-angle_point)/2)
     turtle.forward(height)
-    turtle.left(180)
+    # turtle.forward(height)
+    # turtle.left(180-(180-angle_point)/2)
+    # turtle.forward(height * math.sin(angle_point))
+    # #turtle.forward(math.sqrt(math.pow(height, 2) - math.pow(height*math.sin(angle_point/2), 2))*2)
+    # #turtle.forward(height²-test²=c²)
+    # turtle.left(180-(180-angle_point)/2)
+    # turtle.forward(height)
+    # turtle.left(180)
 
 #def triangle_sss(height:int, side:int):
 #def triangle_sas(height:int, side:int, angle:int):
@@ -61,7 +79,8 @@ def main():
     #rhombus(side_horz=50, side_vert=50, angle=60)
     #triangle_asa(height=80, angle_point=30, angle_twin=80)
     #draw_pie(height=80, draw_pie)
-    triangle_test(angle_point=40, height=200, test=187.94)
+    #triangle_test(angle_point=80, height=200) #, test=187.94
+    triangle_hardcode()
 
     turtle.mainloop()
 
