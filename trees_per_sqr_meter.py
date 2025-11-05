@@ -1,23 +1,20 @@
-def first_tree_plus_rest(opp_height:int, opp_width:int, tree_sqr_radius:int):
-    # Bereken de kleinste driehoek die past, pak de breedte, en trek het af van de maximum breedte.
-    
-    # Deel de nieuwe breedte door de boom diameter
-    #breedte - afstand eerste boom
-    opp_height -= tree_sqr_radius
-    return 0
+import math
+
+def solve(hoogte_x, hoogte_z, breedte_y, hoogte_boom, breedte_boom):
+    trees = math.floor(min(hoogte_x, hoogte_z) / hoogte_boom) * math.floor(breedte_y / breedte_boom)
+    trees += driehoek_calc(max(hoogte_x, hoogte_z) - min(hoogte_x, hoogte_z), breedte_y, hoogte_boom, breedte_boom)
+    print(f"Trees: {trees}")
+
+def driehoek_calc (x, y, hb, bb):
+    #s = de hoogte van de kleine driehoek waar geen bomen in passen
+    math.acos()
+    driehoek_hoek_graden = x, hoek, y
+    if s == bb:
+        y -= onbruikbare_ruimte_breedte
+        return math.floor(y / hb) + driehoek_calc(x - hb, y, hb, bb)
 
 def main():
-    opp_height = 120
-    opp_width = 210
-    tree_sqr_radius = 8
-
-    aantal_bomen = 0
-
-    while opp_height > tree_sqr_radius & opp_height > tree_sqr_radius:
-        aantal_bomen += first_tree_plus_rest(opp_height, opp_width, tree_sqr_radius)
-        aantal_bomen += opp_width // tree_sqr_radius
-
-    print(aantal_bomen)
+    print(solve(hoogte_x=220, hoogte_z=120, breedte_y=90, hoogte_boom=8, breedte_boom=8))
     #HIER PROGRAMMEREN
 
 if __name__ == "__main__":
