@@ -1,6 +1,3 @@
-from numpy.f2py.auxfuncs import throw_error
-
-
 def show_river():
     print("_"*40)
     print(f"Tijd: {tijd} minuten")
@@ -55,8 +52,8 @@ def move_boat():
 
 def main():
     move_boat()
-    if 17 <= tijd: print("Perfect! ", end="")
-    elif 17 > tijd <= 19: print("Goed gedaan, maar het kan beter! ", end="")
+    if 17 >= tijd: print("Perfect! ", end="")
+    elif 17 < tijd <= 19: print("Goed gedaan, maar het kan beter! ", end="")
     else: print("Het kan beter ", end="")
     print(f"Je bracht iedereen naar de andere kant in {tijd} minuten.")
     #HIER PROGRAMMEREN
