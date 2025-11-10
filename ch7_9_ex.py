@@ -40,6 +40,13 @@ def uses_all(word, required):
 
 def check_word(word, available, required):
     """Check whether a word is acceptable.
+
+    >>> check_word('color', 'ACDLORT', 'R')
+    True
+    >>> check_word('ratatat', 'ACDLORT', 'R')
+    True
+    >>> check_word('rat', 'ACDLORT', 'R')
+    False
     >>> check_word('told', 'ACDLORT', 'R')
     False
     >>> check_word('bee', 'ACDLORT', 'R')
@@ -47,7 +54,11 @@ def check_word(word, available, required):
     """
     assert required.lower() in available.lower()
     if len(word) < 4 or required.lower() not in word.lower(): return False
-    for letter in word.lower():
-        if letter not in available.lower():
-            return False
-    return True
+
+    #Option 1 (with external function)
+    return uses_only(word, available)
+    #Option 2 (manual code)
+    # for letter in word.lower():
+    #     if letter not in available.lower():
+    #         return False
+    # return True
