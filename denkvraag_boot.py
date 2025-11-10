@@ -1,67 +1,84 @@
 def show_river():
     print("_"*40)
-    print(f"Tijd: {tijd} minuten")
-    print(links, end=" ")
+    print(f"Tijd: {TIME} minuten")
+    print(LEFT, end=" ")
     print("~"*20, end="")
-    print(rechts)
-    print(f"Boot staat {"links" if boot_links else "rechts"}")
+    print(RIGHT)
+    print(f"Boot staat {"links" if BOAT_LEFT_SIDE else "rechts"}")
 
-def move_boat():
-    global boot_links, tijd
+def move_boat(a, b):
+    global BOAT_LEFT_SIDE, TIME
+
+    if BOAT_LEFT_SIDE:
+        if a in LEFT:
+            LEFT.remove(a)
+            RIGHT.append(a)
+        if b in LEFT:
+            LEFT.remove(b)
+            RIGHT.append(b)
+    else:
+        if a in RIGHT:
+            RIGHT.remove(a)
+            LEFT.append(a)
+        if b in RIGHT:
+            RIGHT.remove(b)
+            LEFT.append(b)
+
+    if b is not None: TIME += max(a, b)
+    else: TIME += a
+    BOAT_LEFT_SIDE = not BOAT_LEFT_SIDE
+    if len(LEFT) > 0: move_boat(a, b)
+    return TIME
+
+def user_moves_boat(passengers:list[int]):
+    global LEFT
+    LEFT = passengers
 
     show_river()
+    while len(LEFT) > 0:
+    # Input en het verifiëren ervan
+        while True:
+            try:
+                a = int(input("Persoon 1: "))
+                if a not in (LEFT if BOAT_LEFT_SIDE else RIGHT): raise ValueError()
 
-    # Input en verifiëren ervan
-    while True:
-        try:
-            a = int(input("Persoon 1: "))
-            if a not in (links if boot_links else rechts): raise ValueError()
+                b = input("Persoon 2: ")
+                if len(b) > 0:
+                    b = int(b)   # Geeft ValueError las het letters zijn, als er niets in staat ook
+                    if b not in (LEFT if BOAT_LEFT_SIDE else RIGHT): raise ValueError()
+                else: b = None
 
-            b = input("Persoon 2: ")
-            if len(b) > 0:
-                b = int(b)   # Geeft ValueError las het letters zijn, als er niets in staat ook
-                if b not in (links if boot_links else rechts): raise ValueError()
-            else: b = None
+                if a != b: break
+                else: raise ValueError()
 
-            if a != b: break
-            else: raise ValueError()
+            except ValueError:
+                print(f"Foute input, maak een unieke keuze uit {LEFT if BOAT_LEFT_SIDE else RIGHT}")
 
-        except ValueError:
-            print(f"Foute input, maak een unieke keuze uit {links if boot_links else rechts}")
+        if len(LEFT) > 0: move_boat(a, b)
 
-    if boot_links:
-        if a in links:
-            links.remove(a)
-            rechts.append(a)
-        if b in links:
-            links.remove(b)
-            rechts.append(b)
-    else:
-        if a in rechts:
-            rechts.remove(a)
-            links.append(a)
-        if b in rechts:
-            rechts.remove(b)
-            links.append(b)
+    if 17 >= TIME: print("Perfect! ", end="")
+    elif 17 < TIME <= 19: print("Goed gedaan, maar het kan beter! ", end="")
+    else: print("Het kan beter ", end="")
+    print(f"Je bracht iedereen naar de andere kant in {TIME} minuten.")
 
-    if b is not None: tijd += max(a, b)
-    else: tijd += a
-    boot_links = not boot_links
-    if len(links) > 0: move_boat()
-    return tijd
+def solve_boat(passengers:list[int]):
+    global LEFT
+    LEFT = passengers
+    while len(LEFT) > 0:
+        for i in range(len(LEFT)):
+            for j in range(len(LEFT)-1):
+                LEFT = passengers
+                move_boat(i, j)
 
 def main():
-    move_boat()
-    if 17 >= tijd: print("Perfect! ", end="")
-    elif 17 < tijd <= 19: print("Goed gedaan, maar het kan beter! ", end="")
-    else: print("Het kan beter ", end="")
-    print(f"Je bracht iedereen naar de andere kant in {tijd} minuten.")
+    solve_boat([1, 2, 5, 10])
+    #user_moves_boat([1, 2, 5, 10])
     #HIER PROGRAMMEREN
 
 if __name__ == "__main__":
-    links = [1,2,5,10]
-    rechts = []
-    boot_links = True
-    tijd = 0
+    LEFT = []
+    RIGHT = []
+    BOAT_LEFT_SIDE = True
+    TIME = 0
 
     main()
