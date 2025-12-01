@@ -100,6 +100,8 @@ STRIPPED = [
 with open("words.txt", "r") as f:
     WORDS = f.read().splitlines()
 
+#WORDS = WORDS * 10
+
 def timed_repeater(repeat):
     def decorator(func):
         @functools.wraps(func)
@@ -126,23 +128,19 @@ def timed_repeater(repeat):
 
 @timed_repeater(repeat=REPEAT)
 def with_remove(lst: list[str]):
-    items = lst[:]
-
-    for item in items[:]:
+    for item in lst[:]:
         if item[0].upper() in {"A", "E", "I", "O", "U"}:
-            items.remove(item)
+            lst.remove(item)
 
-    return items
+    return lst
 
 @timed_repeater(repeat=REPEAT)
 def with_pop(lst: list[str]):
-    items = lst[:]
+    for index in range(len(lst) - 1, -1, -1):
+        if lst[index][0].upper() in {"A", "E", "I", "O", "U"}:
+            lst.pop(index)
 
-    for index in range(len(items) - 1, -1, -1):
-        if items[index][0].upper() in {"A", "E", "I", "O", "U"}:
-            items.pop(index)
-
-    return items
+    return lst
 
 @timed_repeater(repeat=REPEAT)
 def with_del(lst: list[str]):
@@ -157,6 +155,18 @@ def with_del(lst: list[str]):
 @timed_repeater(repeat=REPEAT)
 def with_list_comp(lst: list[str]):
     return [i for i in lst if i[0].upper() not in {"A", "E", "I", "O", "U"}]
+
+
+@timed_repeater(repeat=REPEAT)
+def with_list_copy(lst: list[str]):
+    result = []
+
+    for item in lst:
+        if item[0].upper() not in {"A", "E", "I", "O", "U"}:
+            result.append(item)
+
+    return result
+
 
 @timed_repeater(repeat=REPEAT)
 def with_dict(lst: list[str]):
@@ -199,6 +209,9 @@ def main():
     stripped = with_list_comp(STATES)
     assert stripped == STRIPPED
 
+    stripped = with_list_copy(STATES)
+    assert stripped == STRIPPED
+
     stripped = with_dict(STATES)
     assert stripped == STRIPPED
 
@@ -222,12 +235,12 @@ def main():
     with_dict(STATES[:5])
     with_reduce(STATES[:5])
 
-
     print("WORDS")
-    with_remove(WORDS)
+    # with_remove(WORDS)
     with_pop(WORDS)
     with_del(WORDS)
     with_list_comp(WORDS)
+    with_list_copy(WORDS)
     with_dict(WORDS)
     with_reduce(WORDS)
 
