@@ -3,7 +3,7 @@ import datetime
 
 def rounded_pi(n):      # Nooit een functie combineren met een manier om het om te vormen met text of print in gebruiken
     return round(math.pi, n)    # Als je meer en meer functies moet schrijven om de bovenstaande regel te volgen, is het dan zo.
-def factorial_recursive(n): # Kan errors krijgen als getal te hoog is (vanaf 6 en hoger) #line repeated 995 more times   RecursionError: maximum recursion depth exceeded
+def factorial_recursive(n): # Kan errors krijgen als recursie te hoog is (vanaf 995 en hoger) #line repeated 995 more times   RecursionError: maximum recursion depth exceeded
     if n == 0:
         return 1
     else:
