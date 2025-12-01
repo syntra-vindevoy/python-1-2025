@@ -12,9 +12,11 @@ l = []
 l = list()
 l = ()
 
-#None is accepted in a list, as well as _
+#None is accepted in a list
 l = [None, 5, 7]    #None is for shoving the rest of the values up in order, so you can count from 1-.. instead of 0-.. where you
-l = [_, 5, 7]       #_ is for having an open space for later.
+#_ is a normal variable
+for _ in range(3):  #_ is used when you need a variable name that you won't use again, unlike an i (iteration/index)
+    print()
 
 #[]-lists are mutable
 #()-lists are immutable
@@ -66,5 +68,13 @@ print(names)
 
 del names[0]    #Del comes from "delete", deletes only from mutables, normal variables are immutable like strings, so can't use del
 
+names = sorted(names)   #returns the sorted list, so you need to put it somewhere.
+names.sort()            #Is a void, returns nothing.
 
+def making_word_list(): #9.12
+    word_list = []
 
+    for line in open("words.txt"):
+        word = line.strip()
+        word_list.append(word)
+    print(len(word_list))
