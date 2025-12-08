@@ -86,4 +86,8 @@ names = ["yves", "niels"]
 del names[1:]
 
 
+names = sorted(names)
+
+names.sort()
+
 print(names)
