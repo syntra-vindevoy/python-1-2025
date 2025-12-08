@@ -1,12 +1,12 @@
 def fac(n):
-    if n == 0 or n == 1:
-        return 1
-
     def helper(n, c):
-        if n == 1:
-            return c
+        if n == 2:
+            return c * n
 
         return n - 1, c * n
+
+    if n == 0 or n == 1:
+        return 1
 
     c = 1
 
@@ -15,4 +15,4 @@ def fac(n):
 
     return c * n
 
-print(fac(1500))
+print(fac(5))
