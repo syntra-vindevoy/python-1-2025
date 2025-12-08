@@ -8,7 +8,9 @@ def main():
     z = delen(x, y)
 
 
-if __name__ == "__main__":
+
+
+"__main__":
     assert delen(5, 1) == 5
 
     failure = False

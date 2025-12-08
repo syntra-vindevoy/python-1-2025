@@ -45,3 +45,15 @@ def change_list(lst: list):
 l = [1, 2, 3]
 change_list(l)
 print(l)
+
+l = []
+
+def my_function(lst: list = []):  # BAD !
+    lst.append(4)
+
+my_function(l)
+print(l)
+
+def my_function(lst: list = None):
+    if lst is None:
+        lst = []
