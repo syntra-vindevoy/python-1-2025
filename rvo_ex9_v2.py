@@ -244,12 +244,6 @@ def interlock_general(word_set, word, n=3):
 
 
 def bisection_list(word_list, target):
-    """
-    Binary search using the same structure and style
-    as the user's original `bisection` function.
-
-    Returns True if `target` is in `word_list`.
-    """
     low = 0
     high = len(word_list) - 1
 
@@ -266,22 +260,147 @@ def bisection_list(word_list, target):
 
     return False
 
-def interlocked(word_list, word):
+def interlocked_bisection(word_list, word):
     w1 = word[::2]
     w2 = word[1::2]
     return bisection_list(word_list, w1) and bisection_list(word_list, w2)
 
-def interlock_general(word_list, word, n=3):
+def interlock_general_bisection(word_list, word, n=3):
     for i in range(n):
         part = word[i::n]
         if not bisection_list(word_list, part):
             return False
     return True
 
+def find_interlocked_words(word_list):
+    """Return all 2-way interlocked words."""
+    results = []
+    for word in word_list:
+        if len(word) < 2:
+            continue
+        if interlocked_bisection(word_list, word):
+            results.append((word, word[::2], word[1::2]))
+    return results
 
-# -------------------------------------------------
-# Main execution
-# -------------------------------------------------
+
+def find_interlocked_words_general(word_list, n=3):
+    """Return all n-way interlocked words."""
+    results = []
+    for word in word_list:
+        if len(word) < n:
+            continue
+        if interlock_general_bisection(word_list, word, n):
+            parts = [word[i::n] for i in range(n)]
+            results.append((word, parts))
+    return results
+
+
+def main_interlock_search():
+    print("Loading words...")
+    word_list, word_set = load_words()  # You already defined this
+    print("Loaded", len(word_list), "words.")
+
+    print("\nSearching for 2-way interlocked words...")
+    inter2 = find_interlocked_words(word_list)
+    for word, w1, w2 in inter2:
+        print(f"{word} = {w1} + {w2}")
+
+    print("\nSearching for 3-way interlocked words...")
+    inter3 = find_interlocked_words_general(word_list, n=3)
+    for word, parts in inter3:
+        print(f"{word} = {' + '.join(parts)}")
+
+    print("\nDone.")
+
+def interleave(w1, w2):
+    if len(w1) != len(w2):
+        return None
+    s = []
+    for a, b in zip(w1, w2):
+        s.append(a)
+        s.append(b)
+    return ''.join(s)
+
+def find_interlocking_pairs(word_list, word_set):
+    results = []
+    for w1 in word_list:
+        for w2 in word_list:     # You can optimize this later
+            if len(w1) != len(w2):
+                continue
+            combined = interleave(w1, w2)
+            if combined in word_set:
+                results.append((w1, w2, combined))
+    return results
+
+def find_interlocks_fast(word_set):
+    results = []
+    for word in word_set:
+        w1 = word[::2]
+        w2 = word[1::2]
+        if w1 in word_set and w2 in word_set:
+            results.append((w1, w2, word))
+    return results
+
+def find_three_way_interlocks(word_set):
+    results = []
+    for word in word_set:
+        w1 = word[0::3]
+        w2 = word[1::3]
+        w3 = word[2::3]
+        if w1 in word_set and w2 in word_set and w3 in word_set:
+            results.append((w1, w2, w3, word))
+    return results
+def find_interlocking_words(path='words.txt'):
+    """
+    Return a list of triples (w1, w2, combined)
+    where combining every other letter from w1 and w2
+    forms an existing word in the word list.
+    """
+    # Load word list as set for fast lookup
+    with open(path) as f:
+        word_list = [line.strip() for line in f]
+    word_set = set(word_list)
+
+    results = []
+
+    # Efficient method:
+    # Instead of checking pairs (w1,w2),
+    # check every possible combined word.
+    for w in word_list:
+        # split w into alternating letters
+        w1 = w[::2]  # letters at even positions
+        w2 = w[1::2] # letters at odd positions
+
+        # both must be valid words
+        if w1 in word_set and w2 in word_set:
+            results.append((w1, w2, w))
+
+    return results
+
+def find_three_way_interlocking_words(path='words.txt'):
+    """
+    Return a list of (w1, w2, w3, combined)
+    where every third letter of `combined` forms
+    three existing words w1, w2, w3.
+    """
+    # Load word list and convert to set for O(1) lookup
+    with open(path) as f:
+        word_list = [line.strip() for line in f]
+    word_set = set(word_list)
+
+    results = []
+
+    for w in word_list:
+        # Split into 3 interlocking components:
+        w1 = w[0::3]
+        w2 = w[1::3]
+        w3 = w[2::3]
+
+        # All three parts must be valid words
+        if w1 in word_set and w2 in word_set and w3 in word_set:
+            results.append((w1, w2, w3, w))
+
+    return results
 
 def main():
     from datetime import datetime as dt
@@ -301,6 +420,19 @@ def main():
     print(is_anagram('brak', 'krab'))
     print(has_duplicates([1, 2, 3, 4, 5]))
     print(simulate_birthdays(1000))
+
+    #main_interlock_search()
+    """
+    results = find_interlocking_words()
+
+    for w1, w2, combined in results:
+        print(f"{combined} = {w1} + {w2}")
+    """
+    three_way = find_three_way_interlocking_words()
+
+    for w1, w2, w3, combined in three_way:
+        print(f"{combined} = {w1} + {w2} + {w3}")
+
     """
     # Load words
     print("\nLoading word list...")
