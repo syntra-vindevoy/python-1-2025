@@ -78,3 +78,13 @@ def making_word_list(): #9.12
         word = line.strip()
         word_list.append(word)
     print(len(word_list))
+
+
+def toto(names: list[str] = None):
+    if names is None:
+        names = []
+
+    names = names or []
+    #Is names al gevuld, dan krijg je een "True" als bool en wordt de "... or ..." vervolledigd.
+    #Als names nog niet gevuld is, is de linker kant vor ".. or .." false, kijkt het naar de rechter kant.
+    #   [] is altijd true, en neemt dan [] als waarde om te geven.
