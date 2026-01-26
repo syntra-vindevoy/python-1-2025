@@ -1,7 +1,7 @@
 import random
 import math
 
-# 1) Vindt de woorden met anagrammen, sommige woorden hebben meerdere anagrammen, lijst ze op, en sorteer op meest tot minst.
+# 1) Zoek de woorden met anagrammen, sommige woorden hebben meerdere anagrammen, lijst ze op, en sorteer op meest tot minst.
 def is_anagram(word1: str, word2: str) -> bool:
     return sorted(word1.lower()) == sorted(word2.lower())
 

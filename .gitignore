@@ -5,3 +5,6 @@ __pycache__/
 
 *.log
 *.secret
+
+# Own projects
+pixel_check_auto_click.py
