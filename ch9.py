@@ -91,3 +91,10 @@ names = sorted(names)
 names.sort()
 
 print(names)
+
+
+def toto(names : list[str] = None):
+    if names is None:
+        names = []
+
+    names = names or []
