@@ -1,51 +1,44 @@
-def get_unique_letter_words(bigger_then: str):
-    words = list[str]
-    unique_letter_words = []
+from pathlib import Path
 
-    with open("words.txt") as f:
-        words = f.read().split("\n")
+words = Path("words.txt").read_text().splitlines()
 
-    for word in words:
-        if len(bigger_then) > len(word):
-            continue
+longest = -1
+longest_word = ""
 
-        if has_unique_letters(word) == True:
-            unique_letter_words.append(word)
+for word in words:
+    if len(word) < longest:
+        continue
 
-    return unique_letter_words
+    if len(word) != len(set(word)):
+        continue
 
-def has_unique_letters(word: str):
-    for i in word:
-        for j in len(word):
-            if i == j:
-                pass
-    return True
+    if len(word) > longest:
+        longest = len(word)
+        longest_word = word
 
-def new_unique_letters(input_word: str):
-    from pathlib import Path
-
-    longest = -1
-    longest_word = ""
-
-    words = Path("words.txt").read_text().split("\n")
-
-    for word in words:
-        if len(word) < longest:
-            continue
-
-    # ...
+print(longest_word, "has", longest, "letters")
 
 
-    # letters = {}
-    # longest_word = ""
-    #
-    # for word in words:
-    #     if len(word)
+longest = 0
+longest_word = ""
 
-def main():
-    #print(get_unique_letter_words("unpredictably"))
+for word in words:
+    if len(word) < longest:
+        continue
 
-    pass
+    letters = {}
+    unique = True
 
-if __name__ == "__main__":
-    main()
+    for letter in word:
+        if letter in letters:
+            unique = False
+            break
+
+        letters[letter] = 1
+
+    if unique and len(word) > longest:
+        longest = len(word)
+        longest_word = word
+
+
+print(longest_word, "has", longest, "letters")

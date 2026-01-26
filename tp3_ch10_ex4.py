@@ -1,15 +1,26 @@
-from pathlib import Path
+from tp3_ch10_ex2 import letter_count
 
-def find_repeats(counter):
-    """Makes a list of keys with values greater than 1.
+def find_repeats(word: str) -> dict:
+    letters = letter_count(word)
 
-    counter: dictionary that maps from keys to counts
+    return {letter:letters[letter] for letter in letters if letters[letter]>1 }
 
-    returns: list of keys
-    """
+def find_repeats_alt(letters: dict) -> dict[str, int]:
+    return {letter:value for letter, value in letters.items() if value > 1}
 
-    words = Path("words.txt").read_text().split("\n")
+def find_repeats_2(word: str) -> dict:
+    counts = {}
+    for letter in word:
+        if letter in counts:
+            counts[letter] += 1
+        else:
+            counts[letter] = 1
 
-        
+    repeats = {}
+    for letter, count in counts.items():
+        if count > 1:
+            repeats[letter] = count
 
-    return []
+    return repeats
+
+print(find_repeats_2('brontosaurus'))

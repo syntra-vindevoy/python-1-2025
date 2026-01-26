@@ -1,23 +1,23 @@
 from pathlib import Path
 
-def is_interlocking(word, valid_words):
-    part1 = word[0:2]
-    part2 = word[1:2]
+words = Path("words.txt").read_text().splitlines()
+valid_words = {word: True for word in words if len(word) > 3}
 
-    return part1 in valid_words and part2 in valid_words[part1], word, part1, part2
+# valid_words = {}
+# for word in words:
+#    valid_words[word] = True
 
-def main():
-    words = Path("words.txt").read_text().split("\n")
-    valid_words = {word: True for word in words if len(word) > 3}
+def is_interlocking(word):
+    part1 = word[0::2]
+    part2 = word[1::2]
 
-    for word in valid_words:
-        if len(word) < 8:
-            continue
+    return part1 in valid_words and part2 in valid_words, word, part1, part2
 
-        interlocks, word, part1, part2 = is_interlocking(word, valid_words)
+for word in words:
+    if len(word) < 8:
+        continue
 
-        if interlocks:
-            print(word, part1, part2)
+    interlocks, word, part1, part2 = is_interlocking(word)
 
-if __name__ == "__main__":
-    main()
+    if interlocks:
+        print(word, part1, part2)

@@ -5,28 +5,54 @@ import math
 def is_anagram(word1: str, word2: str) -> bool:
     return sorted(word1.lower()) == sorted(word2.lower())
 
+from pathlib import Path
+def ex1():
+    words = Path("words.txt").read_text().splitlines()
+    counts = {}
+
+    for word in words:
+        s = str(sorted(word))
+
+        if s in counts:
+            counts[s].append(word)
+        else:
+            counts[s] = [word]
+
+    counts = sorted(counts.items(), key=lambda x: len(x[1]), reverse=True)
+    max_ana = len(counts[0][1])
+    counts = {k:v for k,v in counts if len(v) == max_ana}
+    print(max_ana)
+    print(counts)
+
 
 # 2) Priemgetallen met caching (gebruik memos)
 def priem_memos(retrieve):
-    check = 0
     primes = []
     counter = 0
+    check = 3
+    retrieve = 100
 
-    sqrt_check = math.sqrt(check)
-    is_prime = True
+    while counter < retrieve - 1:
+        sqrt_check = math.sqrt(check)
+        is_prime = True
 
-    for prime in primes:
-        if prime > sqrt_check:
-            break
-        if check % prime == 0:
-            is_prime = False
-            break
+        for prime in primes:
+            if prime > sqrt_check:
+                break
 
-    if is_prime:
-        primes.append(check)
-        counter += 1
+            if check % prime == 0:
+                is_prime = False
+                break
 
-    check += 2
+        if is_prime:
+            primes.append(check)
+            counter += 1
+
+        check += 2
+
+    primes = [2] + primes
+
+    print(primes)
 
 def chapter_example(setn):
     known = {0: 0, 1: 1}
@@ -76,6 +102,20 @@ def cto_setup():
         n_list.append(random.randrange(1, 10))
 
     return n_list
+
+def ex3():
+    pairs = {}
+    seek = 15
+
+    numbers = [1, 6, 8, 4, 9, 7]
+
+    for index, number in enumerate(numbers):
+        if (seek - number) in pairs:
+            print(number, "on index", index, "is pair with", seek - number, "on index", pairs[seek - number])
+            break
+
+        pairs[number] = index
+
 
 def main():
     #Exercise 2 code

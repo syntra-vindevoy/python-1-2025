@@ -3,6 +3,10 @@ from time import sleep
 import numpy as np
 #from tarfile import TruncatedHeaderError
 
+#BEFORE EXAM 2 (2026-01-26) [ch9-ch10]
+
+
+#BEFORE EXAM 1 (--) [ch1-ch8)
 def using_sleep():
     sleep(5)
 
