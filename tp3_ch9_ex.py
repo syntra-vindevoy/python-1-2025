@@ -1,12 +1,11 @@
-from dataclasses import replace
 from datetime import datetime
-
+#Segmented for understanding
 def reverse_sentence(sentence:str):
     words = sentence.split()
     words = words.reverse()
     sentence = ' '.join(words)
     return sentence.capitalize()
-
+#One-liner
 def reverse_sentence2(sentence:str):
     return (" ".join(sentence.split()[::-1])).capitalize()
 
@@ -52,25 +51,43 @@ def total_length(test_amount:int):
     print("Ascii sort:", time_ascii_sort)
     print("-"*30)
 
-print(total_length(1))
+def total_length2():
+    #length = 0
+    #
+    #with open("words.txt") as f:
+    #    for line in f:
+    #        line = line.strip()
+    #        length += len(line)
+    #
+    #return length
 
-def nested_sum(lst_ns:list = []):
+    with open("words.txt") as f:
+        content = f.read()
+        content = content.split("\n")
+
+        return len("".join(content))
+
+    with open("words.txt") as f:
+        content = f.read()
+
+        return len(content.replace("\n", ""))
+
+def nested_sum(lst: list[list]):
     s = 0
 
-    for l in lst_ns:
+    for l in lst:
         for n in l:
             s += n
+
     return s
 
     for l in lst:
-        s+= sum(l)
+        s += sum(l)
 
     return s
 
-# def ns(lst: list[list]):
-#     return sum([*l for l in lst])   #"Can't use starred expression here"    => List comprehension
-
-# print(ns([1, 2], [3]))
+def ns(lst: list[list]):
+    return sum([sum(l) for l in lst])
 
 def cumsum(lst:list[int]):
     cl = []
@@ -82,18 +99,15 @@ def cumsum(lst:list[int]):
 
     return cl
 
-def middle(lst_middle:list):
-    return lst_middle[1:-1]
+def cs(lst_cs:list):
+    return [sum(lst_cs[0:1]) for i in range(1, len(lst_cs) + 1)]
 
-print(middle([1,2,3,4,5]))
+def middle(lst: list):
+    return lst[1:-1]
 
 def chop(lst_chop:list):
     lst_chop.pop(0)
     lst_chop.pop(-1)
-
-lst = [1,2,3,4,5]
-print(chop(lst))
-print(lst)
 
 def is_sorted(lst_sort:list) -> bool:
     # return sorted(lst) == lst   #Simple but not the best
@@ -103,11 +117,34 @@ def is_sorted(lst_sort:list) -> bool:
             return False
     return True
 
-def cs(lst_cs:list):
-    return [sum(lst[0:1]) for i in range(1, len(lst_cs) + 1)]
-
 def has_duplicates(lst:list) -> bool:
+    #lst = sorted(lst)
+
     for i in range(lst):
         if lst[i] in lst[i+1:]:
             return True
     return False
+
+    # for element in lst:
+    #     if lst.count(element) > 1:
+    #         return True
+    #
+    # return len(lst) > len(set(lst))
+
+def main():
+    lst = [1,2,3,4,5]
+    # print(lst)
+    # print("BEGIN")
+    # total_length(5)
+    # print("SPACE")
+    # total_length2()
+    # print("END")
+    # print(total_length(1))
+    # print(ns([[1, 2], [3]]))
+    print(cs([1, 2, 3]))
+    # print(middle([1,2,3,4]))
+    # print(chop(lst))
+    pass
+
+if __name__ == "__main__":
+    main()
