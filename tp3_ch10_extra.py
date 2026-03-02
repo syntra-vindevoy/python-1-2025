@@ -127,6 +127,7 @@ def main():
     # print(primes)
     #Exercise
     #combo_to_number(15, cto_setup()) #15, random length of random numbers 1->10
+    ex1()
     print("End")
 
 if __name__ == "__main__":

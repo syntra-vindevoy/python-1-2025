@@ -23,4 +23,4 @@ def find_repeats_2(word: str) -> dict:
 
     return repeats
 
-print(find_repeats_2('brontosaurus'))
+print(find_repeats('brontosaurus'))
