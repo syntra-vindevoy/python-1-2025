@@ -534,7 +534,18 @@ from ex7 import required
 from globals import APPLICATION_NAME
 """
 
+class NewClass:
+    # PROPERTIES
+    bord: list[list[str]]
 
+    #CONSTRUCTOR
+    def __innit__(self):
+        self.bord = [[]*8]*8
+
+    #METHODS
+    # def move(speler: Speler, piece: Piece, new_pos: str):
+    #     if Piece.color == Speler.color
+    #     piece.position = new_pos
 
 
 
