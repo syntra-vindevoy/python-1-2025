@@ -25,11 +25,11 @@ def main():
     animal = Animal()
     animal.eat()
 
-    dog = Dog()
-    dog.eat()
+    bobby = Dog()
+    bobby.eat()
 
-    cat = Cat()
-    cat.eat()
+    musti = Cat()
+    musti.eat()
 
     # If a methode is called through a class, then it searches in that class first.
     # If it has not been found, then it looks for the inherited class. Found, do that. Not, error.
