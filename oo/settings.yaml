@@ -1,0 +1,11 @@
+---
+
+db: postgres
+user: postgres
+password: postgres
+
+tables:
+  - users
+  - posts
+  - comments
+

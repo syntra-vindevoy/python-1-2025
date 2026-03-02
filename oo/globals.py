@@ -1,0 +1,4 @@
+
+
+APPLICATION_NAME = "Mijn programma"
+APPLICATION_VERSION = "1.0.0"
