@@ -12,3 +12,6 @@ class Position:
 
     def pos(self):
         return (self.hor(), self.ver())
+
+    def __eq__(self, other):
+        return isinstance(other, Position) and self.strpos == other.strpos
