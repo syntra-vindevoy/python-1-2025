@@ -49,4 +49,8 @@ class Move:
             self.unauthorized_reason = f"Cannot move to {self.to_pos.strpos}: occupied by your own piece"
             return False
 
+        if not piece.is_authorized_move(self.from_pos, self.to_pos, self.board):
+            self.unauthorized_reason = f"This piece cannot move from {self.from_pos.strpos} to {self.to_pos.strpos}"
+            return False
+
         return True

@@ -41,6 +41,19 @@ class Game:
                 self.handle_draw()
             else:
                 self.board.move_piece(move.from_pos, move.to_pos)
+
+                opponent_color = self.other_player.color
+                if self.board.is_checkmate(opponent_color):
+                    self.winner = self.current_player
+                    print(f"Checkmate! {self.current_player.color} wins!")
+                elif self.board.is_stalemate(opponent_color):
+                    self.draw = True
+                    print("Stalemate! The game is a draw.")
+                elif self.board.is_insufficient_material():
+                    self.draw = True
+                    print("Draw by insufficient material.")
+                elif self.board.is_check(opponent_color):
+                    print(f"Check!")
             break
 
     def handle_draw(self):
@@ -69,6 +82,8 @@ class Game:
         if len(self.moves) > 0 and self.moves[-1].is_quit:
             return True
         if self.draw:
+            return True
+        if self.winner is not None:
             return True
         return False
 
