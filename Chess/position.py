@@ -1,0 +1,13 @@
+class Position:
+    def __init__(self, *, strpos: str):
+        self.strpos = strpos
+
+    def hor(self):
+        letters = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8}
+        return self.strpos[0]       # Need input validation
+
+    def ver(self):
+        return int(self.strpos[1])  # Needs input validation
+
+    def pos(self):
+        return self.hor(), self.ver()
