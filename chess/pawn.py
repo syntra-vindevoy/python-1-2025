@@ -100,3 +100,30 @@ class Pawn(Piece):
                             return True
 
         return False
+
+    def attacks_square(self, *, from_pos, to_pos, board):
+        """
+        Check whether this pawn attacks (threatens) a given square.
+
+        A pawn attacks the two diagonal squares in front of it, regardless of
+        whether those squares are occupied. This is different from is_authorized_move,
+        which only allows diagonal movement when capturing an opponent's piece.
+
+        This distinction matters for king safety: a king cannot move to a square
+        that a pawn attacks, even if that square is currently empty.
+
+        Args:
+            from_pos: The Position where the pawn currently stands.
+            to_pos: The target Position to check.
+            board: The Board object (not used, but required by the interface).
+
+        Returns:
+            True if this pawn attacks the target square.
+        """
+        direction = 1 if self.color == "white" else -1
+
+        col_diff = to_pos.hor() - from_pos.hor()
+        row_diff = to_pos.ver() - from_pos.ver()
+
+        # A pawn attacks the two diagonal squares one row ahead
+        return abs(col_diff) == 1 and row_diff == direction

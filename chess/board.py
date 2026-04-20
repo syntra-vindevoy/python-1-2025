@@ -211,17 +211,33 @@ class Board:
         """
         Return a hashable representation of the current board position.
 
-        Used for threefold repetition detection. The key includes each piece's
-        position, type, and color, sorted by position for consistency.
+        Used for threefold repetition detection. Per FIDE rules, two positions
+        are the same only if:
+        - The same pieces occupy the same squares
+        - The same player has the move (handled by Game, not here)
+        - Castling rights are identical (tracked via has_moved flags)
+        - En-passant possibilities are identical (tracked via last_move)
 
         Returns:
-            A tuple of strings, each describing one piece on the board.
-            Example element: "A1Rookwhite".
+            A tuple combining piece positions, castling rights, and en-passant state.
         """
         parts = []
 
         for pos, piece in sorted(self.pieces, key=lambda x: x[0].strpos):
             parts.append(f"{pos.strpos}{type(piece).__name__}{piece.color}")
+
+        # Include castling rights: whether each king and rook has moved
+        for pos, piece in self.pieces:
+            if hasattr(piece, 'has_moved'):
+                parts.append(f"{pos.strpos}moved={piece.has_moved}")
+
+        # Include en-passant possibility: if the last move was a pawn double advance,
+        # the en-passant target square is part of the position
+        if self.last_move is not None:
+            last_from, last_to, last_piece = self.last_move
+
+            if isinstance(last_piece, Pawn) and abs(last_to.ver() - last_from.ver()) == 2:
+                parts.append(f"ep={last_to.strpos}")
 
         return tuple(parts)
 
@@ -258,20 +274,22 @@ class Board:
 
     def is_under_attack(self, *, position, by_color):
         """
-        Check whether a given square is attacked by any piece of the given color.
+        Check whether a given square is attacked (threatened) by any piece of the given color.
 
-        Iterates through all pieces of by_color and checks if any of them can
-        legally move to the target position according to their movement rules.
+        Uses attacks_square instead of is_authorized_move because the two differ
+        for pawns: a pawn attacks diagonally regardless of whether the square is
+        occupied, but can only move there if capturing. This distinction is critical
+        for king movement and castling safety.
 
         Args:
             position: The Position to check.
             by_color: The color of the attacking pieces ("white" or "black").
 
         Returns:
-            True if at least one piece of by_color can reach the position.
+            True if at least one piece of by_color threatens the position.
         """
         for pos, piece in self.pieces_of_color(color=by_color):
-            if piece.is_authorized_move(from_pos=pos, to_pos=position, board=self):
+            if piece.attacks_square(from_pos=pos, to_pos=position, board=self):
 
                 return True
 

@@ -52,6 +52,28 @@ class Piece(ABC):
         """
         pass
 
+    def attacks_square(self, *, from_pos, to_pos, board):
+        """
+        Check whether this piece attacks (threatens) a given square.
+
+        For most pieces, attacking a square is the same as being able to move there.
+        The pawn is the exception: it attacks diagonally regardless of whether the
+        target square is occupied, but it moves forward only to empty squares.
+
+        This method is used by is_under_attack to determine if a square is threatened,
+        which matters for king movement and castling safety checks.
+
+        Args:
+            from_pos: The Position where the piece currently stands.
+            to_pos: The target Position to check.
+            board: The Board object.
+
+        Returns:
+            True if this piece attacks the target square.
+        """
+
+        return self.is_authorized_move(from_pos=from_pos, to_pos=to_pos, board=board)
+
     def _intermediate_positions(self, *, from_pos, to_pos):
         """
         Calculate all positions between from_pos and to_pos (exclusive of both endpoints).

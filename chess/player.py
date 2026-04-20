@@ -5,9 +5,6 @@ Represents a human player in the chess game. Each player has a color (white or b
 and a name that is entered at the start of the game.
 """
 
-from dataclasses import dataclass
-
-
 class Player:
     """
     Represents a chess player.

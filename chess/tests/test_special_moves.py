@@ -179,6 +179,29 @@ class TestCastling:
 
         assert result is False
 
+    def test_castling_not_allowed_through_pawn_attacked_square(self):
+        """Castling is not allowed if a pawn attacks an intermediate square."""
+        board = empty_board()
+        king = King(color="white")
+        rook = Rook(color="white")
+        place(board=board, piece=king, position_str="E1")
+        place(board=board, piece=rook, position_str="H1")
+        # Black pawn on G3 attacks F2 — but we need it to attack F1.
+        # Black pawn on E2 attacks F1 diagonally (black pawn moves down, attacks diag)
+        # Wait: black pawn direction is -1, so it attacks squares one row DOWN diagonally.
+        # Black pawn on G2 attacks F1 (col_diff=-1, row_diff=2-1-1=-1=direction for black? No.)
+        # Actually: black pawn direction = -1. It attacks from_pos row - 1.
+        # Pawn on G2: attacks F1 (col_diff=-1, row_diff=1-2=-1=direction). Yes!
+        place(board=board, piece=Pawn(color="black"), position_str="G2")
+
+        result = king.is_authorized_move(
+            from_pos=Position(strpos="E1"),
+            to_pos=Position(strpos="G1"),
+            board=board
+        )
+
+        assert result is False
+
     def test_castling_not_allowed_with_piece_in_between(self):
         """Castling is not allowed if there is a piece between king and rook."""
         board = empty_board()

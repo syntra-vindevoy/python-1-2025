@@ -375,7 +375,7 @@ class TestKingInvalidDirection:
 
 
 class TestKingCannotMoveIntoCheck:
-    def test_cannot_move_to_attacked_square(self):
+    def test_cannot_move_to_square_attacked_by_rook(self):
         board = empty_board()
         king = King(color="white")
         place(board=board, piece=king, position_str="E1")
@@ -388,6 +388,40 @@ class TestKingCannotMoveIntoCheck:
         )
 
         assert result is False
+
+    def test_cannot_move_to_square_attacked_by_pawn(self):
+        """King must not move to a square attacked by an opponent pawn,
+        even though the target square is empty (pawn attacks diagonally)."""
+        board = empty_board()
+        king = King(color="white")
+        place(board=board, piece=king, position_str="E1")
+        place(board=board, piece=Pawn(color="black"), position_str="E3")
+
+        # D2 is diagonally attacked by the black pawn on E3
+        result = king.is_authorized_move(
+            from_pos=Position(strpos="E1"),
+            to_pos=Position(strpos="D2"),
+            board=board
+        )
+
+        assert result is False
+
+    def test_can_move_to_square_not_attacked_by_pawn(self):
+        """King can move to a square that is NOT attacked by a pawn
+        (pawn attacks diagonally, not forward)."""
+        board = empty_board()
+        king = King(color="white")
+        place(board=board, piece=king, position_str="E1")
+        place(board=board, piece=Pawn(color="black"), position_str="D4")
+
+        # E2 is NOT attacked by the black pawn on D4 (pawn attacks C3 and E3, not E2)
+        result = king.is_authorized_move(
+            from_pos=Position(strpos="E1"),
+            to_pos=Position(strpos="E2"),
+            board=board
+        )
+
+        assert result is True
 
 
 # ============================================================================

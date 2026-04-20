@@ -55,6 +55,21 @@ class TestCheck:
 
         assert board.is_check(color="white") is True
 
+    def test_empty_square_attacked_by_pawn(self):
+        """An empty square should be detected as under attack by a pawn."""
+        board = empty_board()
+        place(board=board, piece=King(color="white"), position_str="A1")
+        place(board=board, piece=Pawn(color="black"), position_str="E3")
+
+        # D2 is diagonally attacked by the black pawn on E3 (empty square)
+        assert board.is_under_attack(position=Position(strpos="D2"), by_color="black") is True
+
+        # F2 is also diagonally attacked by the black pawn on E3
+        assert board.is_under_attack(position=Position(strpos="F2"), by_color="black") is True
+
+        # E2 is NOT attacked (pawn moves forward, doesn't attack forward)
+        assert board.is_under_attack(position=Position(strpos="E2"), by_color="black") is False
+
     def test_king_not_in_check(self):
         board = empty_board()
         place(board=board, piece=King(color="white"), position_str="E1")
