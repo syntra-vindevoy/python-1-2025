@@ -20,7 +20,7 @@ class Bishop(Piece):
     def __init__(self, *, color: str):
         super().__init__(color=color)
 
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this bishop can move from from_pos to to_pos.
 
@@ -42,7 +42,12 @@ class Bishop(Piece):
         # E.g. moving from C1 to F4 is 3 columns right and 3 rows up — valid.
         # Moving from C1 to F3 is 3 columns right and 2 rows up — not diagonal.
         if abs(col_diff) != abs(row_diff):
+
             return False
 
         # All diagonal squares between source and destination must be empty
-        return self.path_is_clear(self._intermediate_positions(from_pos, to_pos), board)
+
+        return self.path_is_clear(
+            positions=self._intermediate_positions(from_pos=from_pos, to_pos=to_pos),
+            board=board
+        )

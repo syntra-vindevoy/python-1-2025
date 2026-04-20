@@ -20,7 +20,7 @@ class Knight(Piece):
     def __init__(self, *, color: str):
         super().__init__(color=color)
 
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this knight can move from from_pos to to_pos.
 
@@ -42,4 +42,5 @@ class Knight(Piece):
         # The knight moves in an L-shape: 2 squares in one direction and 1 in the other.
         # E.g. from B1 to C3 (1 right, 2 up) or from B1 to A3 (1 left, 2 up).
         # The knight is the only piece that jumps over other pieces — no path check needed.
+
         return (col_diff == 2 and row_diff == 1) or (col_diff == 1 and row_diff == 2)

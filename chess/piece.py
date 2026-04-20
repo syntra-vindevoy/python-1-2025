@@ -32,7 +32,7 @@ class Piece(ABC):
         self.color = color
 
     @abstractmethod
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this piece can move from from_pos to to_pos on the given board.
 
@@ -52,7 +52,7 @@ class Piece(ABC):
         """
         pass
 
-    def _intermediate_positions(self, from_pos, to_pos):
+    def _intermediate_positions(self, *, from_pos, to_pos):
         """
         Calculate all positions between from_pos and to_pos (exclusive of both endpoints).
 
@@ -91,7 +91,7 @@ class Piece(ABC):
 
         return positions
 
-    def path_is_clear(self, positions, board):
+    def path_is_clear(self, *, positions, board):
         """
         Check whether all given positions are empty (no piece occupying them).
 
@@ -106,6 +106,8 @@ class Piece(ABC):
             True if all positions are empty, False if any position is occupied.
         """
         for pos in positions:
-            if board.piece_at(pos) is not None:
+            if board.piece_at(position=pos) is not None:
+
                 return False
+
         return True

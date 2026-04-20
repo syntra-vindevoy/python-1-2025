@@ -103,15 +103,17 @@ class Game:
 
             if move.is_quit:
                 self.winner = self.other_player
+
             elif move.is_draw_proposal:
                 self.handle_draw()
+
             else:
                 # Determine if this move resets the 50-move clock before executing it,
                 # because move_piece will modify the board state.
-                is_pawn_move = isinstance(self.board.piece_at(move.from_pos), Pawn)
-                is_capture = self.board.piece_at(move.to_pos) is not None
+                is_pawn_move = isinstance(self.board.piece_at(position=move.from_pos), Pawn)
+                is_capture = self.board.piece_at(position=move.to_pos) is not None
 
-                self.board.move_piece(move.from_pos, move.to_pos)
+                self.board.move_piece(from_pos=move.from_pos, to_pos=move.to_pos)
 
                 # 50-move rule: the clock resets on any pawn move or capture,
                 # as these are irreversible actions that change the game state.
@@ -127,25 +129,32 @@ class Game:
                 # Checkmate and stalemate are checked first because they are
                 # definitive outcomes. Draw conditions follow.
                 opponent_color = self.other_player.color
-                if self.board.is_checkmate(opponent_color):
+
+                if self.board.is_checkmate(color=opponent_color):
                     self.winner = self.current_player
                     print(f"Checkmate! {self.current_player.color} wins!")
-                elif self.board.is_stalemate(opponent_color):
+
+                elif self.board.is_stalemate(color=opponent_color):
                     self.draw = True
                     print("Stalemate! The game is a draw.")
+
                 elif self.board.is_insufficient_material():
                     self.draw = True
                     print("Draw by insufficient material.")
+
                 elif self.is_threefold_repetition():
                     self.draw = True
                     print("Draw by threefold repetition.")
+
                 # 50-move rule: 100 half-moves = 50 full moves (each player moves once
                 # per half-move). The clock counts half-moves without a pawn move or capture.
                 elif self.half_move_clock >= 100:
                     self.draw = True
                     print("Draw by 50-move rule.")
-                elif self.board.is_check(opponent_color):
+
+                elif self.board.is_check(color=opponent_color):
                     print(f"Check!")
+
             break
 
     def handle_draw(self):
@@ -157,6 +166,7 @@ class Game:
         so the same player can make a regular move on the next turn.
         """
         answer = input(f"Player {self.other_player.color}, do you accept the draw? (YES/NO): ").upper()
+
         if answer == "YES":
             self.draw = True
         else:
@@ -174,8 +184,11 @@ class Game:
         # In chess, white always moves first. Moves are numbered 0, 1, 2, 3...
         # Even indices (0, 2, 4...) = white's turn, odd indices (1, 3, 5...) = black's turn
         if len(self.moves) % 2 == 0:
+
             return self.player_white
+
         else:
+
             return self.player_black
 
     @property
@@ -184,8 +197,11 @@ class Game:
         Return the player who is NOT currently moving.
         """
         if self.current_player == self.player_white:
+
             return self.player_black
+
         else:
+
             return self.player_white
 
     def is_threefold_repetition(self):
@@ -200,6 +216,7 @@ class Game:
             True if the current position has appeared at least 3 times in the game.
         """
         current_position = self.position_history[-1]
+
         return self.position_history.count(current_position) >= 3
 
     def is_over(self):
@@ -215,10 +232,15 @@ class Game:
             True if the game is over, False if play should continue.
         """
         if len(self.moves) > 0 and self.moves[-1].is_quit:
-            return True
-        if self.draw:
-            return True
-        if self.winner is not None:
-            return True
-        return False
 
+            return True
+
+        if self.draw:
+
+            return True
+
+        if self.winner is not None:
+
+            return True
+
+        return False

@@ -28,7 +28,7 @@ class Pawn(Piece):
     def __init__(self, *, color: str):
         super().__init__(color=color)
 
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this pawn can move from from_pos to to_pos.
 
@@ -55,23 +55,29 @@ class Pawn(Piece):
         col_diff = to_pos.hor() - from_pos.hor()
         row_diff = to_pos.ver() - from_pos.ver()
 
-        target_piece = board.piece_at(to_pos)
+        target_piece = board.piece_at(position=to_pos)
 
         # Move one square forward: must be same column and destination must be empty
         if col_diff == 0 and row_diff == direction and target_piece is None:
+
             return True
 
         # Move two squares forward from starting position:
         # must be same column, on the start row, and both the intermediate
         # square and destination must be empty.
         if col_diff == 0 and row_diff == 2 * direction and from_pos.ver() == start_row:
-            if self.path_is_clear(self._intermediate_positions(from_pos, to_pos), board) and target_piece is None:
+            if self.path_is_clear(
+                positions=self._intermediate_positions(from_pos=from_pos, to_pos=to_pos),
+                board=board
+            ) and target_piece is None:
+
                 return True
 
         # Diagonal capture: move one column left or right, one row forward
         if abs(col_diff) == 1 and row_diff == direction:
             # Standard capture: there is an opponent's piece at the destination
             if target_piece is not None and target_piece.color != self.color:
+
                 return True
 
             # En-passant: the destination square is empty, but an opponent's pawn
@@ -86,9 +92,11 @@ class Pawn(Piece):
             #     and on the same row as our current position
             if target_piece is None and board.last_move is not None:
                 last_from, last_to, last_piece = board.last_move
+
                 if isinstance(last_piece, Pawn) and last_piece.color != self.color:
                     if abs(last_to.ver() - last_from.ver()) == 2:
                         if last_to.hor() == to_pos.hor() and last_to.ver() == from_pos.ver():
+
                             return True
 
         return False

@@ -36,7 +36,7 @@ class Move:
 
     pattern = re.compile(r'^[A-H][1-8][- ][A-H][1-8]$')
 
-    def __init__(self, from_to: str, board=None, color=None):
+    def __init__(self, *, from_to: str, board=None, color=None):
         """
         Create and validate a move from user input.
 
@@ -83,6 +83,7 @@ class Move:
         Returns:
             True if the syntax is valid, False otherwise.
         """
+
         return bool(self.pattern.match(self.from_to))
 
     def is_authorized_move(self):
@@ -108,30 +109,35 @@ class Move:
         # Check 1: source and destination must differ
         if self.from_pos == self.to_pos:
             self.unauthorized_reason = "From and to positions are the same"
+
             return False
 
         # Check 2: there must be a piece at the source
-        piece = self.board.piece_at(self.from_pos)
+        piece = self.board.piece_at(position=self.from_pos)
 
         if piece is None:
             self.unauthorized_reason = f"No piece at {self.from_pos.strpos}"
+
             return False
 
         # Check 3: the piece must belong to the current player
         if piece.color != self.color:
             self.unauthorized_reason = f"Piece at {self.from_pos.strpos} belongs to the other player"
+
             return False
 
         # Check 4: cannot capture your own piece
-        target_piece = self.board.piece_at(self.to_pos)
+        target_piece = self.board.piece_at(position=self.to_pos)
 
         if target_piece is not None and target_piece.color == self.color:
             self.unauthorized_reason = f"Cannot move to {self.to_pos.strpos}: occupied by your own piece"
+
             return False
 
         # Check 5: the piece's own movement rules must allow it
-        if not piece.is_authorized_move(self.from_pos, self.to_pos, self.board):
+        if not piece.is_authorized_move(from_pos=self.from_pos, to_pos=self.to_pos, board=self.board):
             self.unauthorized_reason = f"This piece cannot move from {self.from_pos.strpos} to {self.to_pos.strpos}"
+
             return False
 
         # Check 6: simulate the move and verify the king is not left in check.
@@ -156,14 +162,15 @@ class Move:
         # After the simulated move, find our king and check if it's under attack.
         # A pinned piece (one that shields the king from an attacker) would fail here
         # because moving it would expose the king.
-        king_pos = self.board.find_king(self.color)
-        in_check = self.board.is_under_attack(king_pos, opponent_color)
+        king_pos = self.board.find_king(color=self.color)
+        in_check = self.board.is_under_attack(position=king_pos, by_color=opponent_color)
 
         # Restore the board to its original state — the simulation is done
         self.board.pieces = saved_pieces
 
         if in_check:
             self.unauthorized_reason = "This move would leave your king in check"
+
             return False
 
         return True

@@ -17,7 +17,7 @@ class Queen(Piece):
     def __init__(self, *, color: str):
         super().__init__(color=color)
 
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this queen can move from from_pos to to_pos.
 
@@ -42,6 +42,10 @@ class Queen(Piece):
         # Diagonal: abs(col_diff) == abs(row_diff)
         # Anything else is invalid.
         if col_diff != 0 and row_diff != 0 and abs(col_diff) != abs(row_diff):
+
             return False
 
-        return self.path_is_clear(self._intermediate_positions(from_pos, to_pos), board)
+        return self.path_is_clear(
+            positions=self._intermediate_positions(from_pos=from_pos, to_pos=to_pos),
+            board=board
+        )

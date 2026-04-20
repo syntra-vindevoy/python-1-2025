@@ -31,7 +31,7 @@ class King(Piece):
         super().__init__(color=color)
         self.has_moved = False
 
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this king can move from from_pos to to_pos.
 
@@ -54,16 +54,22 @@ class King(Piece):
 
         # Castling: detected when king moves exactly 2 squares horizontally
         if abs(col_diff) == 2 and row_diff == 0:
-            return self._can_castle(from_pos, to_pos, board, col_diff, opponent_color)
+
+            return self._can_castle(
+                from_pos=from_pos, to_pos=to_pos, board=board,
+                col_diff=col_diff, opponent_color=opponent_color
+            )
 
         # Normal move: king moves one square in any direction
         if abs(col_diff) > 1 or abs(row_diff) > 1:
+
             return False
 
         # The king cannot move to a square under attack
-        return not board.is_under_attack(to_pos, opponent_color)
 
-    def _can_castle(self, from_pos, to_pos, board, col_diff, opponent_color):
+        return not board.is_under_attack(position=to_pos, by_color=opponent_color)
+
+    def _can_castle(self, *, from_pos, to_pos, board, col_diff, opponent_color):
         """
         Check whether castling is allowed in the given direction.
 
@@ -88,10 +94,12 @@ class King(Piece):
             True if castling is allowed.
         """
         if self.has_moved:
+
             return False
 
         # King must not be in check at the start
-        if board.is_under_attack(from_pos, opponent_color):
+        if board.is_under_attack(position=from_pos, by_color=opponent_color):
+
             return False
 
         row = from_pos.ver()
@@ -106,20 +114,29 @@ class King(Piece):
             rook_pos = Position(strpos=f"A{row}")
 
         # The rook must exist and must not have moved
-        rook = board.piece_at(rook_pos)
+        rook = board.piece_at(position=rook_pos)
+
         if rook is None or not hasattr(rook, 'has_moved') or rook.has_moved:
+
             return False
 
         # All squares between the king and rook must be empty
-        if not rook.path_is_clear(rook._intermediate_positions(from_pos, rook_pos), board):
+        if not rook.path_is_clear(
+            positions=rook._intermediate_positions(from_pos=from_pos, to_pos=rook_pos),
+            board=board
+        ):
+
             return False
 
         # The king must not pass through or land on any square attacked by the opponent.
         # This checks each square the king crosses (including the destination).
         step = 1 if col_diff > 0 else -1
+
         for c in range(from_pos.hor() + step, to_pos.hor() + step, step):
             pos = Position(strpos=f"{letters[c - 1]}{row}")
-            if board.is_under_attack(pos, opponent_color):
+
+            if board.is_under_attack(position=pos, by_color=opponent_color):
+
                 return False
 
         return True

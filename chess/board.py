@@ -80,7 +80,7 @@ class Board:
         for col in "ABCDEFGH":
             self._put(piece=Pawn(color="black"), position=f"{col}7")
 
-    def piece_at(self, position: Position):
+    def piece_at(self, *, position: Position):
         """
         Return the piece at the given position, or None if the square is empty.
 
@@ -92,10 +92,12 @@ class Board:
         """
         for pos, piece in self.pieces:
             if pos == position:
+
                 return piece
+
         return None
 
-    def move_piece(self, from_pos: Position, to_pos: Position):
+    def move_piece(self, *, from_pos: Position, to_pos: Position):
         """
         Execute a move on the board, handling all special move types.
 
@@ -115,17 +117,14 @@ class Board:
             from_pos: The Position where the piece currently stands.
             to_pos: The Position where the piece is moving to.
         """
-        piece = self.piece_at(from_pos)
+        piece = self.piece_at(position=from_pos)
 
-        # En-passant: a pawn captures diagonally to an empty square.
-        # The captured pawn is on the same row as the moving pawn, but on the
-        # destination column. We remove it before the standard capture logic.
         # En-passant detection: a pawn moving diagonally (column changes) to an
         # empty square can only mean en-passant. The captured pawn sits on the
         # same row as our pawn (from_pos.ver()) but on the destination column.
         # Example: white pawn on E5 captures en-passant to D6 — the black pawn
         # on D5 (same row as E5, same column as D6) is removed.
-        if isinstance(piece, Pawn) and from_pos.hor() != to_pos.hor() and self.piece_at(to_pos) is None:
+        if isinstance(piece, Pawn) and from_pos.hor() != to_pos.hor() and self.piece_at(position=to_pos) is None:
             captured_pos = Position(strpos=f"{to_pos.strpos[0]}{from_pos.ver()}")
             self.pieces = [(pos, p) for pos, p in self.pieces if pos != captured_pos]
 
@@ -148,6 +147,7 @@ class Board:
         # Queenside: King E1->C1, Rook A1->D1
         if isinstance(piece, King) and abs(to_pos.hor() - from_pos.hor()) == 2:
             row = from_pos.ver()
+
             if to_pos.hor() > from_pos.hor():
                 # Kingside castling
                 rook_from = Position(strpos=f"H{row}")
@@ -167,13 +167,14 @@ class Board:
         # the player must replace it with a Queen, Rook, Bishop, or Knight.
         if isinstance(piece, Pawn):
             promotion_row = 8 if piece.color == "white" else 1
+
             if to_pos.ver() == promotion_row:
-                self._promote_pawn(to_pos, piece.color)
+                self._promote_pawn(position=to_pos, color=piece.color)
 
         # Track the last move for en-passant detection on the next turn
         self.last_move = (from_pos, to_pos, piece)
 
-    def _promote_pawn(self, position, color):
+    def _promote_pawn(self, *, position, color):
         """
         Replace a pawn at the given position with a piece chosen by the player.
 
@@ -186,6 +187,7 @@ class Board:
         """
         while True:
             choice = input("Promote pawn to (Q)ueen, (R)ook, (B)ishop, or (K)night: ").upper()
+
             if choice == "Q":
                 new_piece = Queen(color=color)
             elif choice == "R":
@@ -202,6 +204,7 @@ class Board:
                 if pos == position:
                     self.pieces[i] = (pos, new_piece)
                     break
+
             break
 
     def position_key(self):
@@ -216,11 +219,13 @@ class Board:
             Example element: "A1Rookwhite".
         """
         parts = []
+
         for pos, piece in sorted(self.pieces, key=lambda x: x[0].strpos):
             parts.append(f"{pos.strpos}{type(piece).__name__}{piece.color}")
+
         return tuple(parts)
 
-    def pieces_of_color(self, color):
+    def pieces_of_color(self, *, color):
         """
         Return all pieces of the given color with their positions.
 
@@ -230,9 +235,10 @@ class Board:
         Returns:
             A list of (Position, Piece) tuples for all pieces of that color.
         """
+
         return [(pos, piece) for pos, piece in self.pieces if piece.color == color]
 
-    def find_king(self, color):
+    def find_king(self, *, color):
         """
         Find the position of the king of the given color.
 
@@ -245,10 +251,12 @@ class Board:
         """
         for pos, piece in self.pieces:
             if isinstance(piece, King) and piece.color == color:
+
                 return pos
+
         return None
 
-    def is_under_attack(self, position, by_color):
+    def is_under_attack(self, *, position, by_color):
         """
         Check whether a given square is attacked by any piece of the given color.
 
@@ -262,12 +270,14 @@ class Board:
         Returns:
             True if at least one piece of by_color can reach the position.
         """
-        for pos, piece in self.pieces_of_color(by_color):
-            if piece.is_authorized_move(pos, position, self):
+        for pos, piece in self.pieces_of_color(color=by_color):
+            if piece.is_authorized_move(from_pos=pos, to_pos=position, board=self):
+
                 return True
+
         return False
 
-    def has_legal_moves(self, color):
+    def has_legal_moves(self, *, color):
         """
         Check whether the player of the given color has at least one legal move.
 
@@ -293,7 +303,7 @@ class Board:
         opponent_color = "black" if color == "white" else "white"
         letters = "ABCDEFGH"
 
-        for from_pos, piece in self.pieces_of_color(color):
+        for from_pos, piece in self.pieces_of_color(color=color):
             for col in letters:
                 for row in range(1, 9):
                     to_pos = Position(strpos=f"{col}{row}")
@@ -302,12 +312,13 @@ class Board:
                         continue
 
                     # Cannot capture own piece
-                    target = self.piece_at(to_pos)
+                    target = self.piece_at(position=to_pos)
+
                     if target is not None and target.color == color:
                         continue
 
                     # Piece must allow this move
-                    if not piece.is_authorized_move(from_pos, to_pos, self):
+                    if not piece.is_authorized_move(from_pos=from_pos, to_pos=to_pos, board=self):
                         continue
 
                     # Simulate the move to verify king safety.
@@ -328,19 +339,20 @@ class Board:
                             break
 
                     # Check if our king is safe after the simulated move
-                    king_pos = self.find_king(color)
-                    in_check = self.is_under_attack(king_pos, opponent_color)
+                    king_pos = self.find_king(color=color)
+                    in_check = self.is_under_attack(position=king_pos, by_color=opponent_color)
 
                     # Restore the board to its original state
                     self.pieces = saved_pieces
 
                     # If the king is not in check after this move, it's legal
                     if not in_check:
+
                         return True
 
         return False
 
-    def is_check(self, color):
+    def is_check(self, *, color):
         """
         Check whether the king of the given color is currently in check.
 
@@ -353,10 +365,11 @@ class Board:
             True if the king is in check, False otherwise.
         """
         opponent_color = "black" if color == "white" else "white"
-        king_pos = self.find_king(color)
-        return self.is_under_attack(king_pos, opponent_color)
+        king_pos = self.find_king(color=color)
 
-    def is_checkmate(self, color):
+        return self.is_under_attack(position=king_pos, by_color=opponent_color)
+
+    def is_checkmate(self, *, color):
         """
         Check whether the player of the given color is in checkmate.
 
@@ -370,9 +383,10 @@ class Board:
         Returns:
             True if the player is in checkmate.
         """
-        return self.is_check(color) and not self.has_legal_moves(color)
 
-    def is_stalemate(self, color):
+        return self.is_check(color=color) and not self.has_legal_moves(color=color)
+
+    def is_stalemate(self, *, color):
         """
         Check whether the player of the given color is in stalemate (pat).
 
@@ -386,7 +400,8 @@ class Board:
         Returns:
             True if the player is in stalemate.
         """
-        return not self.is_check(color) and not self.has_legal_moves(color)
+
+        return not self.is_check(color=color) and not self.has_legal_moves(color=color)
 
     def is_insufficient_material(self):
         """
@@ -402,8 +417,8 @@ class Board:
         Returns:
             True if the game is a draw due to insufficient material.
         """
-        white_pieces = self.pieces_of_color("white")
-        black_pieces = self.pieces_of_color("black")
+        white_pieces = self.pieces_of_color(color="white")
+        black_pieces = self.pieces_of_color(color="black")
 
         # Separate out the kings — they always exist, so we only care about
         # the remaining "non-king" pieces to determine material sufficiency.
@@ -412,6 +427,7 @@ class Board:
 
         # King vs King: both sides have only their king — no piece can deliver checkmate
         if len(white_non_king) == 0 and len(black_non_king) == 0:
+
             return True
 
         # King + minor piece vs King: a single bishop or knight cannot force
@@ -419,10 +435,12 @@ class Board:
         # cannot be forced, so FIDE considers it insufficient material.)
         if len(white_non_king) == 1 and len(black_non_king) == 0:
             if isinstance(white_non_king[0][1], (Bishop, Knight)):
+
                 return True
 
         if len(black_non_king) == 1 and len(white_non_king) == 0:
             if isinstance(black_non_king[0][1], (Bishop, Knight)):
+
                 return True
 
         # King + Bishop vs King + Bishop on the same color square:
@@ -435,8 +453,10 @@ class Board:
             if isinstance(white_non_king[0][1], Bishop) and isinstance(black_non_king[0][1], Bishop):
                 w_pos = white_non_king[0][0]
                 b_pos = black_non_king[0][0]
+
                 # Same parity = same square color = insufficient material
                 if (w_pos.hor() + w_pos.ver()) % 2 == (b_pos.hor() + b_pos.ver()) % 2:
+
                     return True
 
         return False

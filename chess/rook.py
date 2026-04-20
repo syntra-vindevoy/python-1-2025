@@ -27,7 +27,7 @@ class Rook(Piece):
         super().__init__(color=color)
         self.has_moved = False
 
-    def is_authorized_move(self, from_pos, to_pos, board):
+    def is_authorized_move(self, *, from_pos, to_pos, board):
         """
         Check whether this rook can move from from_pos to to_pos.
 
@@ -50,7 +50,12 @@ class Rook(Piece):
         # column changes) or vertically (column stays the same, row changes).
         # If both change, it's a diagonal move — not allowed for a rook.
         if col_diff != 0 and row_diff != 0:
+
             return False
 
         # All squares between source and destination must be empty
-        return self.path_is_clear(self._intermediate_positions(from_pos, to_pos), board)
+
+        return self.path_is_clear(
+            positions=self._intermediate_positions(from_pos=from_pos, to_pos=to_pos),
+            board=board
+        )

@@ -47,6 +47,7 @@ class Position:
 
         Row 1 is white's back rank, row 8 is black's back rank.
         """
+
         return int(self.strpos[1])
 
     def pos(self):
@@ -55,6 +56,7 @@ class Position:
 
         Example: Position("C3").pos() returns (3, 3).
         """
+
         return (self.hor(), self.ver())
 
     def __eq__(self, other):
@@ -65,4 +67,5 @@ class Position:
         (not reused), so identity comparison (is) would always return False
         for positions referring to the same square.
         """
+
         return isinstance(other, Position) and self.strpos == other.strpos
