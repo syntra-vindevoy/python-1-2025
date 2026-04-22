@@ -4,8 +4,13 @@ disable_existing_loggers  : false
 handlers:
   console:
     class                 : logging.StreamHandler
-    formatter             : message_only
+    formatter             : default
     stream                : ext://sys.stdout
+
+  console_err:
+    class                 : logging.StreamHandler
+    formatter             : default
+    stream                : ext://sys.stderr
 
   file:
     class                 : logging.handlers.RotatingFileHandler
@@ -16,19 +21,24 @@ handlers:
 
 formatters:
   default:
-    format                : '%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-26s | %(message)s'
+    format                : '%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-21s | %(message)s'
     datefmt               : '%Y-%m-%d %H:%M:%S'
 
   message_only:
     format: '%(message)s'
 
 loggers:
-  Fibonacci:
-    level                 : WARNING
+  uvicorn:
+    level                 : INFO
+    handlers              : [console_err, file]
+    propagate             : no
+
+  asyncio:
+    level                 : INFO
     handlers              : [console, file]
     propagate             : no
 
   root:
-    level                 : SUCCESS
+    level                 : DEBUG
     handlers              : [console, file]
     propagate             : no
