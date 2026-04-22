@@ -300,10 +300,11 @@ class ChessGUI:
         text = self.status_font.render(self.status_message, True, COLOR_STATUS_TEXT)
         self.screen.blit(text, (15, bar_y + 10))
 
+        mouse_pos = pygame.mouse.get_pos()
+
         if not self.game_over:
             # QUIT button
             self.quit_button_rect = pygame.Rect(WINDOW_WIDTH - 180, bar_y + 45, 75, 28)
-            mouse_pos = pygame.mouse.get_pos()
             quit_color = COLOR_BUTTON_HOVER if self.quit_button_rect.collidepoint(mouse_pos) else COLOR_BUTTON
             pygame.draw.rect(self.screen, quit_color, self.quit_button_rect, border_radius=4)
             quit_text = self.button_font.render("RESIGN", True, COLOR_BUTTON_TEXT)
@@ -317,6 +318,15 @@ class ChessGUI:
             draw_text = self.button_font.render("DRAW", True, COLOR_BUTTON_TEXT)
             draw_text_rect = draw_text.get_rect(center=self.draw_button_rect.center)
             self.screen.blit(draw_text, draw_text_rect)
+
+        else:
+            # RESTART button
+            self.restart_button_rect = pygame.Rect(WINDOW_WIDTH - 120, bar_y + 45, 100, 28)
+            restart_color = COLOR_BUTTON_HOVER if self.restart_button_rect.collidepoint(mouse_pos) else COLOR_BUTTON
+            pygame.draw.rect(self.screen, restart_color, self.restart_button_rect, border_radius=4)
+            restart_text = self.button_font.render("NEW GAME", True, COLOR_BUTTON_TEXT)
+            restart_text_rect = restart_text.get_rect(center=self.restart_button_rect.center)
+            self.screen.blit(restart_text, restart_text_rect)
 
     def draw_promotion_dialog(self):
         """Draw the promotion choice dialog over the board."""
@@ -558,6 +568,26 @@ class ChessGUI:
         self.game_over = True
         self.status_message = "Game ended in a draw by agreement."
 
+    def restart(self):
+        """Reset all game state and start a new game."""
+        self.board = Board()
+        self.moves = []
+        self.winner = None
+        self.draw = False
+        self.current_color = "white"
+        self.selected_pos = None
+        self.legal_moves = []
+        self.last_move_from = None
+        self.last_move_to = None
+        self.status_message = "White's turn"
+        self.game_over = False
+        self.position_history = [self.board.position_key()]
+        self.half_move_clock = 0
+        self.promoting = False
+        self.promotion_pos = None
+        self.promotion_color = None
+        self.restart_button_rect = None
+
     # ========================================================================
     # MAIN LOOP
     # ========================================================================
@@ -585,6 +615,10 @@ class ChessGUI:
                         continue
 
                     # Check button clicks
+                    if self.restart_button_rect and self.restart_button_rect.collidepoint(x, y):
+                        self.restart()
+                        continue
+
                     if self.quit_button_rect and self.quit_button_rect.collidepoint(x, y):
                         self.handle_resign()
                         continue

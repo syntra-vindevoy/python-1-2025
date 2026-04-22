@@ -1,58 +1,51 @@
 import logging
+import logging.config
+from pathlib import Path
+
+import yaml
 
 
 class LoggerFactory:
+    _CONFIG_PATH = Path(__file__).parent / "logging.yaml"
+
+    TRACE = logging.DEBUG - 5
+    SUCCESS = logging.INFO + 5
+    FATAL = logging.CRITICAL + 10
+
+    logging.addLevelName(TRACE, "TRACE")
+    logging.addLevelName(SUCCESS, "SUCCESS")
+    logging.addLevelName(FATAL, "FATAL")
+
+    def _trace(self, message, *args, **kwargs):
+        if self.isEnabledFor(5):
+            self._log(5, message, args, **kwargs)
+
+    def _success(self, message, *args, **kwargs):
+        if self.isEnabledFor(logging.INFO + 5):
+            self._log(logging.INFO + 5, message, args, **kwargs)
+
+    def _fatal(self, message, *args, **kwargs):
+        if self.isEnabledFor(logging.CRITICAL + 10):
+            self._log(logging.CRITICAL + 10, message, args, **kwargs)
+
+    logging.Logger.trace = _trace
+    logging.Logger.success = _success
+    logging.Logger.fatal = _fatal
+
+    with open(_CONFIG_PATH) as _f:
+        logging.config.dictConfig(yaml.safe_load(_f))
+
     @classmethod
-    def get_logger(cls, identifier: str, level: int = logging.INFO):
-        logger = logging.getLogger(identifier)
-        logger.setLevel(level)
+    def get_logger(cls, identifier: str):
+        return logging.getLogger(identifier)
 
-        handler = logging.StreamHandler()
-        handler.setLevel(level)
-
-        formatter = logging.Formatter(
-            fmt="%(asctime)s.%(msecs)03d %(levelname)8s %(message)s  (%(name)s)",
-            datefmt="%Y-%m-%d %H:%M:%S"
-        )
-
-        handler.setFormatter(formatter)
-
-        logger.addHandler(handler)
-
-        return logger
 
 class LoggingObject:
+    logger: logging.Logger
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.logger = LoggerFactory.get_logger(cls.__name__)
+
     def __init__(self):
         self.logger = LoggerFactory.get_logger(self.__class__.__name__)
-
-
-class Client:
-    logger = LoggerFactory.get_logger("Client", logging.DEBUG)
-
-    def __init__(self, name: str):
-        self.name = name
-
-    def save(self):
-        self.logger.info(f"Saving information for client: {self.name}")
-
-
-class Supplier(LoggingObject):
-    def __init__(self, name: str):
-        super().__init__()
-
-        self.name = name
-
-    def save(self):
-        self.logger.info(f"Saving information for supplier: {self.name}")
-
-def main():
-    c = Client("Yves")
-    c.logger.debug(f"name: {c.name}")
-    c.save()
-
-    s = Supplier("Syntra")
-    s.logger.info(f"name: {s.name}")
-    s.save()
-
-if __name__ == "__main__":
-    main()

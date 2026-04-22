@@ -1,0 +1,34 @@
+version                   : 1
+disable_existing_loggers  : false
+
+handlers:
+  console:
+    class                 : logging.StreamHandler
+    formatter             : message_only
+    stream                : ext://sys.stdout
+
+  file:
+    class                 : logging.handlers.RotatingFileHandler
+    formatter             : default
+    filename              : application.log
+    maxBytes              : 100000000
+    backupCount           : 10
+
+formatters:
+  default:
+    format                : '%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-26s | %(message)s'
+    datefmt               : '%Y-%m-%d %H:%M:%S'
+
+  message_only:
+    format: '%(message)s'
+
+loggers:
+  Fibonacci:
+    level                 : WARNING
+    handlers              : [console, file]
+    propagate             : no
+
+  root:
+    level                 : SUCCESS
+    handlers              : [console, file]
+    propagate             : no
