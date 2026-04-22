@@ -25,13 +25,19 @@ Author: robinvorsselmans1@hotmail.com
 Summary: Object-oriented implementation of Shiny applications.
 """
 
+import sys
+import os
 from abc import ABC, abstractmethod
 from typing import Any
 
 from shiny import App, ui, render
 
+# Add the parent directory to sys.path to access the oo module
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from oo.loggerfactory import LoggingObject
 
-class ShinyApp(ABC):
+
+class ShinyApp(ABC, LoggingObject):
     """Base class for Shiny applications.
 
     This abstract base class provides the foundational structure for building
@@ -41,6 +47,8 @@ class ShinyApp(ABC):
     ----------
     app : App
         The Shiny App instance created from the UI and server.
+    logger : Logger
+        Logger instance for this application.
 
     Methods
     -------
@@ -57,8 +65,12 @@ class ShinyApp(ABC):
 
         Creates the UI and server, then initializes the App instance.
         """
+        super().__init__()
+        self.logger.info(f"Initializing {self.__class__.__name__} application")
         self.ui = self.create_ui()
+        self.logger.info("UI created successfully")
         self.app = App(self.ui, self.create_server)
+        self.logger.info("Shiny App instance created successfully")
 
     @abstractmethod
     def create_ui(self) -> ui.Tag:
@@ -94,6 +106,7 @@ class ShinyApp(ABC):
         **kwargs
             Additional arguments to pass to the app run method.
         """
+        self.logger.info(f"Starting {self.__class__.__name__} application")
         self.app.run(**kwargs)
 
 
@@ -125,7 +138,8 @@ class HelloWorldApp(ShinyApp):
         Author: robinvorsselmans
         Summary: Created UI layout matching the original functional implementation.
         """
-        return ui.page_fluid(
+        self.logger.info("Creating Hello World UI layout")
+        ui_layout = ui.page_fluid(
             # Title
             ui.h1("Hello World Example"),
             # Text input field: text input for name
@@ -133,6 +147,8 @@ class HelloWorldApp(ShinyApp):
             # Output label: reactive text output for greeting
             ui.output_text(id="label_greeting"),
         )
+        self.logger.info("Hello World UI layout created with input_name and label_greeting components")
+        return ui_layout
 
     def create_server(self, inputs: Any, outputs: Any, session: Any) -> None:
         """Create the server function for the Hello World application.
@@ -160,6 +176,7 @@ class HelloWorldApp(ShinyApp):
         """
 
         assert session
+        self.logger.info("Setting up Hello World server function")
 
         @outputs(id="label_greeting")
         @render.text
@@ -183,13 +200,18 @@ class HelloWorldApp(ShinyApp):
             name = inputs.input_name()
 
             if not name:
+                self.logger.info("User input is empty, returning greeting for stranger")
                 return "Hello, stranger"
 
+            self.logger.info(f"User entered name: '{name}', returning personalized greeting")
             return f"Hello, {name}"
+
+        self.logger.info("Hello World server function setup complete with greeting renderer")
 
 
 # Create an instance for direct usage
 hello_app = HelloWorldApp()
+hello_app.logger.info("HelloWorldApp instance created and ready for use")
 app = hello_app.app
 
 # Don't forget to format and check with ruff before committing!
