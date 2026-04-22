@@ -122,7 +122,7 @@ class HelloWorldApp(ShinyApp):
 
         Version 1.0.0
         Date: 2026-04-22
-        Author: yves.vindevogel.external@arcelormittal.com
+        Author: robinvorsselmans
         Summary: Created UI layout matching the original functional implementation.
         """
         return ui.page_fluid(
@@ -155,7 +155,7 @@ class HelloWorldApp(ShinyApp):
 
         Version 1.0.0
         Date: 2026-04-22
-        Author: yves.vindevogel.external@arcelormittal.com
+        Author: robinvorsselmans
         Summary: Implemented server logic matching the original functional implementation.
         """
 
@@ -176,7 +176,7 @@ class HelloWorldApp(ShinyApp):
 
             Version 1.0.0
             Date: 2026-04-22
-            Author: yves.vindevogel.external@arcelormittal.com
+            Author: robinvorsselmans
             Summary: Implemented greeting logic matching the original functional implementation.
             """
 
