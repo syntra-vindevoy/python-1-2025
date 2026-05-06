@@ -1,18 +1,13 @@
-from abc import ABC, abstractmethod
-
 from shiny import App
 
 
-class ShinyApplication(ABC):
-    @abstractmethod
-    def layout(self):
-        pass
-
-    @abstractmethod
-    def server(self, inputs, outputs, session):
-        pass
+class ShinyApplication:
+    def __init__(self, model_cls, view_cls, controller_cls):
+        self.model = model_cls()
+        self.view = view_cls()
+        self.controller = controller_cls()
 
     def run(self):
-        app = App(self.layout(), self.server)
+        app = App(self.view(), self.controller)
 
         app.run()
