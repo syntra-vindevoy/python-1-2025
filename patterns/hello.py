@@ -1,22 +1,27 @@
-from shiny import App, reactive, render, ui
+from shiny import reactive, render, ui
 
-app_ui = ui.page_fluid(
-    ui.input_text("name", "Your name"),
-    ui.input_action_button("greet", "Greet"),
-    ui.output_text("greeting"),
-)
+from shiny_application import ShinyApplication
 
 
-def server(inputs, outputs, session):
-    @render.text
-    @reactive.event(inputs.greet)
-    def greeting():
-        name = inputs.name().strip()
+class HelloApplication(ShinyApplication):
+    def layout(self):
+        return ui.page_fluid(
+            ui.input_text("name", "Your name"),
+            ui.input_action_button("greet", "Greet"),
+            ui.output_text("greeting"),
+        )
 
-        if name:
-            return f"hello {name}"
+    def server(self, inputs, outputs, session):
+        @render.text
+        @reactive.event(inputs.greet)
+        def greeting():
+            name = inputs.name().strip()
 
-        return "hello stranger"
+            if name:
+                return f"hello {name}"
+
+            return "hello stranger"
 
 
-app = App(app_ui, server)
+if __name__ == "__main__":
+    HelloApplication().run()
