@@ -1,6 +1,6 @@
 """Tests for each piece's movement rules.
 
-For each piece, tests cover 4 scenarios:
+For each piece, _tests cover 4 scenarios:
 1. Valid move (correct direction/pattern)
 2. Invalid direction (piece can't move that way)
 3. Destination occupied by same color (blocked)

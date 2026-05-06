@@ -4,7 +4,7 @@ from shiny.pytest import create_app_fixture
 from shiny.playwright import controller
 
 
-app = create_app_fixture("hello_shiny.py")
+app = create_app_fixture("../main.py")
 
 
 def test_default_greeting(page: Page, app):

@@ -1,0 +1,44 @@
+version                   : 1
+disable_existing_loggers  : false
+
+handlers:
+  console:
+    class                 : logging.StreamHandler
+    formatter             : default
+    stream                : ext://sys.stdout
+
+  console_err:
+    class                 : logging.StreamHandler
+    formatter             : default
+    stream                : ext://sys.stderr
+
+  file:
+    class                 : logging.handlers.RotatingFileHandler
+    formatter             : default
+    filename              : /home/vindevoy/Syntra/shiny_app/_logs/application.log
+    maxBytes              : 100000000
+    backupCount           : 10
+
+formatters:
+  default:
+    format                : '%(asctime)s.%(msecs)03d | %(levelname)-8s | %(name)-21s | %(message)s'
+    datefmt               : '%Y-%m-%d %H:%M:%S'
+
+  message_only:
+    format: '%(message)s'
+
+loggers:
+  uvicorn:
+    level                 : INFO
+    handlers              : [console_err, file]
+    propagate             : no
+
+  asyncio:
+    level                 : INFO
+    handlers              : [console, file]
+    propagate             : no
+
+  root:
+    level                 : TRACE
+    handlers              : [console, file]
+    propagate             : no
