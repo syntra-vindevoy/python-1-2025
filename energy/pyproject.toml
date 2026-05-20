@@ -1,0 +1,31 @@
+[project]
+name = "energy"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml",
+    "shiny",
+    "pandas",
+    "matplotlib",
+    "scipy",
+]
+
+[dependency-groups]
+dev = [
+    "nox",
+    "pytest",
+    "pytest-playwright",
+    "playwright",
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["energy"]

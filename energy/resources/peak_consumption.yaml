@@ -1,0 +1,9 @@
+# Subscribed peak power (kW) for the household grid connection, per validity
+# window. The simulation uses the row whose [valid_from, valid_to] range covers
+# the simulated date. If a date is not covered by any row, the default in
+# state.PEAK_KW is used.
+
+- rec_id: 1
+  valid_from: "2020-01-01"
+  valid_to: "9999-12-31"
+  peak_kw: 3.5

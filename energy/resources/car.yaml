@@ -1,0 +1,24 @@
+# Electric cars in the household fleet.
+# capacity_kwh        - usable battery capacity
+# max_charge_kw       - maximum AC charge rate from a home wall box
+# current_soc_kwh     - state of charge when the car comes home
+# min_soc_kwh         - HARD floor: the LP must charge at least to this level.
+#                       Sized to "enough to get through tomorrow with a
+#                       comfortable buffer".
+# target_soc_kwh      - HARD ceiling: the LP will not charge above this. With
+#                       min < target, the LP will pick the cheapest amount in
+#                       the [min, target] range, so usually it lands at min
+#                       unless something else makes extra charge "free".
+# charge_start_hour   - hour the car becomes available to charge (0..23)
+# charge_end_hour     - hour the car must be ready (0..23). If end < start the
+#                       window wraps midnight (18 → 8 = 14 hours).
+
+- rec_id: 1
+  brand: Zeekr 001 GT
+  capacity_kwh: 100
+  max_charge_kw: 11
+  current_soc_kwh: 50
+  min_soc_kwh: 75
+  target_soc_kwh: 100
+  charge_start_hour: 18
+  charge_end_hour: 8

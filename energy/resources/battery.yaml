@@ -1,0 +1,18 @@
+# Battery models in stock.
+# capacity_kwh          - usable energy storage in kilowatt-hours
+# max_power_kw          - sustained charge/discharge rate (per unit). Powerwall
+#                         3 datasheet: 11.5 kW continuous.
+# round_trip_efficiency - AC-to-AC round-trip efficiency. Powerwall 3
+#                         advertises ~90%. The simulation splits this evenly
+#                         between charge and discharge as sqrt(0.9).
+# min_soc_kwh           - reserved floor. Cells degrade faster at very low SoC,
+#                         so keep at least this much in the battery (LiFePO4 ≈
+#                         10% of capacity). The LP refuses to discharge below
+#                         this; greedy clamps discharge to it as well.
+
+- rec_id: 1
+  brand: Tesla Powerwall 3
+  capacity_kwh: 13.5
+  max_power_kw: 11.5
+  round_trip_efficiency: 0.9
+  min_soc_kwh: 1.35

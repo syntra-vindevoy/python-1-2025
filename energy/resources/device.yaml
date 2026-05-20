@@ -1,0 +1,134 @@
+# Household devices.
+# type:
+#   always_on  - runs all 24 hours
+#   switchable - runs only when scheduled
+#   light      - turns on automatically when user is awake AND it is dark
+# category:    free-text bucket (Kitchen, Household, Entertainment, Office,
+#              Lighting, Network, Other) used to group consumption in stats.
+# consumption_wh: energy used per hour of operation (= average power in W).
+
+- rec_id: 1
+  name: Fridge
+  type: always_on
+  consumption_wh: 40
+  category: Kitchen
+
+- rec_id: 2
+  name: Freezer
+  type: always_on
+  consumption_wh: 30
+  category: Kitchen
+
+- rec_id: 3
+  name: Internet router
+  type: always_on
+  consumption_wh: 10
+  category: Network
+
+- rec_id: 4
+  name: Standby load
+  type: always_on
+  consumption_wh: 20
+  category: Other
+
+- rec_id: 5
+  name: Washing machine
+  type: switchable
+  consumption_wh: 700
+  category: Household
+
+- rec_id: 6
+  name: Tumble dryer
+  type: switchable
+  consumption_wh: 2500
+  category: Household
+
+- rec_id: 7
+  name: Dishwasher
+  type: switchable
+  consumption_wh: 1500
+  category: Household
+
+- rec_id: 8
+  name: TV living room (60")
+  type: switchable
+  consumption_wh: 130
+  category: Entertainment
+
+- rec_id: 9
+  name: Microwave
+  type: switchable
+  consumption_wh: 1000
+  category: Kitchen
+
+- rec_id: 10
+  name: Electric oven
+  type: switchable
+  consumption_wh: 2200
+  category: Kitchen
+
+- rec_id: 11
+  name: Kettle
+  type: switchable
+  consumption_wh: 2000
+  category: Kitchen
+
+- rec_id: 12
+  name: Desktop computer
+  type: switchable
+  consumption_wh: 200
+  category: Office
+
+- rec_id: 13
+  name: Vacuum cleaner
+  type: switchable
+  consumption_wh: 1200
+  category: Household
+
+- rec_id: 14
+  name: Hair dryer
+  type: switchable
+  consumption_wh: 1800
+  category: Household
+
+- rec_id: 15
+  name: Living room lights
+  type: light
+  consumption_wh: 50
+  category: Lighting
+
+- rec_id: 16
+  name: Bedroom lights
+  type: light
+  consumption_wh: 30
+  category: Lighting
+
+- rec_id: 17
+  name: TV bedroom (55")
+  type: switchable
+  consumption_wh: 100
+  category: Entertainment
+
+- rec_id: 18
+  name: Laptop
+  type: switchable
+  consumption_wh: 50
+  category: Office
+
+- rec_id: 19
+  name: Printer / scanner
+  type: switchable
+  consumption_wh: 200
+  category: Office
+
+- rec_id: 20
+  name: Alarm clock
+  type: always_on
+  consumption_wh: 3
+  category: Other
+
+- rec_id: 21
+  name: Radio
+  type: switchable
+  consumption_wh: 15
+  category: Entertainment

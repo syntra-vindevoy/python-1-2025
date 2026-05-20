@@ -1,0 +1,181 @@
+# Hourly dynamic electricity tariff for one day.
+# Inspired by the Frank Energie "Dynamisch" / Engie "Flex Dynamic" tariffs that
+# follow the day-ahead BELPEX (EPEX SPOT) price per hour.
+#
+#   import_price_eur_per_kwh : what you pay to take energy FROM the grid.
+#                              = day-ahead spot + ~0.15 €/kWh of network costs,
+#                                taxes (capacity tariff, federal contribution),
+#                                supplier margin and VAT.
+#   export_price_eur_per_kwh : what you receive for putting energy ON the grid.
+#                              = day-ahead spot (no extra costs added).
+#
+# Numbers are illustrative for 2026-05-21 — a sunny day with cheap midday
+# generation (solar floods the market) and an expensive evening peak.
+
+- rec_id: 1
+  date: "2026-05-21"
+  hour_start: 0
+  hour_end: 1
+  import_price_eur_per_kwh: 0.23
+  export_price_eur_per_kwh: 0.08
+
+- rec_id: 2
+  date: "2026-05-21"
+  hour_start: 1
+  hour_end: 2
+  import_price_eur_per_kwh: 0.22
+  export_price_eur_per_kwh: 0.07
+
+- rec_id: 3
+  date: "2026-05-21"
+  hour_start: 2
+  hour_end: 3
+  import_price_eur_per_kwh: 0.21
+  export_price_eur_per_kwh: 0.06
+
+- rec_id: 4
+  date: "2026-05-21"
+  hour_start: 3
+  hour_end: 4
+  import_price_eur_per_kwh: 0.21
+  export_price_eur_per_kwh: 0.06
+
+- rec_id: 5
+  date: "2026-05-21"
+  hour_start: 4
+  hour_end: 5
+  import_price_eur_per_kwh: 0.22
+  export_price_eur_per_kwh: 0.07
+
+- rec_id: 6
+  date: "2026-05-21"
+  hour_start: 5
+  hour_end: 6
+  import_price_eur_per_kwh: 0.25
+  export_price_eur_per_kwh: 0.10
+
+- rec_id: 7
+  date: "2026-05-21"
+  hour_start: 6
+  hour_end: 7
+  import_price_eur_per_kwh: 0.29
+  export_price_eur_per_kwh: 0.14
+
+- rec_id: 8
+  date: "2026-05-21"
+  hour_start: 7
+  hour_end: 8
+  import_price_eur_per_kwh: 0.33
+  export_price_eur_per_kwh: 0.18
+
+- rec_id: 9
+  date: "2026-05-21"
+  hour_start: 8
+  hour_end: 9
+  import_price_eur_per_kwh: 0.31
+  export_price_eur_per_kwh: 0.16
+
+- rec_id: 10
+  date: "2026-05-21"
+  hour_start: 9
+  hour_end: 10
+  import_price_eur_per_kwh: 0.27
+  export_price_eur_per_kwh: 0.12
+
+- rec_id: 11
+  date: "2026-05-21"
+  hour_start: 10
+  hour_end: 11
+  import_price_eur_per_kwh: 0.23
+  export_price_eur_per_kwh: 0.08
+
+- rec_id: 12
+  date: "2026-05-21"
+  hour_start: 11
+  hour_end: 12
+  import_price_eur_per_kwh: 0.20
+  export_price_eur_per_kwh: 0.05
+
+- rec_id: 13
+  date: "2026-05-21"
+  hour_start: 12
+  hour_end: 13
+  import_price_eur_per_kwh: 0.19
+  export_price_eur_per_kwh: 0.04
+
+- rec_id: 14
+  date: "2026-05-21"
+  hour_start: 13
+  hour_end: 14
+  import_price_eur_per_kwh: 0.18
+  export_price_eur_per_kwh: 0.03
+
+- rec_id: 15
+  date: "2026-05-21"
+  hour_start: 14
+  hour_end: 15
+  import_price_eur_per_kwh: 0.19
+  export_price_eur_per_kwh: 0.04
+
+- rec_id: 16
+  date: "2026-05-21"
+  hour_start: 15
+  hour_end: 16
+  import_price_eur_per_kwh: 0.21
+  export_price_eur_per_kwh: 0.06
+
+- rec_id: 17
+  date: "2026-05-21"
+  hour_start: 16
+  hour_end: 17
+  import_price_eur_per_kwh: 0.25
+  export_price_eur_per_kwh: 0.10
+
+- rec_id: 18
+  date: "2026-05-21"
+  hour_start: 17
+  hour_end: 18
+  import_price_eur_per_kwh: 0.31
+  export_price_eur_per_kwh: 0.16
+
+- rec_id: 19
+  date: "2026-05-21"
+  hour_start: 18
+  hour_end: 19
+  import_price_eur_per_kwh: 0.39
+  export_price_eur_per_kwh: 0.24
+
+- rec_id: 20
+  date: "2026-05-21"
+  hour_start: 19
+  hour_end: 20
+  import_price_eur_per_kwh: 0.43
+  export_price_eur_per_kwh: 0.28
+
+- rec_id: 21
+  date: "2026-05-21"
+  hour_start: 20
+  hour_end: 21
+  import_price_eur_per_kwh: 0.40
+  export_price_eur_per_kwh: 0.25
+
+- rec_id: 22
+  date: "2026-05-21"
+  hour_start: 21
+  hour_end: 22
+  import_price_eur_per_kwh: 0.35
+  export_price_eur_per_kwh: 0.20
+
+- rec_id: 23
+  date: "2026-05-21"
+  hour_start: 22
+  hour_end: 23
+  import_price_eur_per_kwh: 0.29
+  export_price_eur_per_kwh: 0.14
+
+- rec_id: 24
+  date: "2026-05-21"
+  hour_start: 23
+  hour_end: 24
+  import_price_eur_per_kwh: 0.25
+  export_price_eur_per_kwh: 0.10

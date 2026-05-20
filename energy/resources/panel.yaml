@@ -1,0 +1,10 @@
+# Solar panel models in stock.
+# capacity_wp        - panel rating in Watt-peak at STC (1000 W/m², 25 °C)
+# performance_ratio  - real output ÷ STC rating after losses: imperfect tilt /
+#                      orientation, temperature derating, soiling, inverter,
+#                      wiring. Typical Belgian roof installation: 0.80 - 0.85.
+
+- rec_id: 1
+  brand: SunPower Maxeon 6
+  capacity_wp: 425
+  performance_ratio: 0.85
