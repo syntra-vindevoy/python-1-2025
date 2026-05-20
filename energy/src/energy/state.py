@@ -5,6 +5,7 @@ from energy.models.batteries import Batteries
 from energy.models.battery_states import BatteryStates
 from energy.models.electric_cars import ElectricCars
 from energy.models.houses import Houses
+from energy.models.meter_readings import MeterReadings
 from energy.models.peak_consumptions import PeakConsumptions
 from energy.models.productions import Productions
 from energy.models.schedule import Schedule
@@ -36,6 +37,7 @@ tariffs = Tariffs()
 battery_states = BatteryStates()
 electric_cars = ElectricCars()
 peak_consumptions = PeakConsumptions()
+meter_readings = MeterReadings()
 houses = Houses(appliances=appliances)
 house = houses.get(1)
 
@@ -58,4 +60,5 @@ TABLES = {
     "Battery state": battery_states,
     "Electric cars": electric_cars,
     "Peak consumption": peak_consumptions,
+    "Meter readings": meter_readings,
 }

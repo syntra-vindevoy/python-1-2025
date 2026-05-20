@@ -39,6 +39,9 @@ PRETTY_COLUMNS = {
     "wind_kmh": "Wind (km/h)",
     "precipitation_mm": "Rain (mm)",
     "humidity_pct": "Humidity (%)",
+    "hour": "Hour",
+    "imported_kwh": "Imported (kWh)",
+    "exported_kwh": "Exported (kWh)",
 }
 
 

@@ -5,6 +5,7 @@ from energy.models.appliances import TYPE_LABELS, Appliance, ApplianceType
 from energy.models.batteries import Battery
 from energy.models.battery_states import BatteryState
 from energy.models.electric_cars import ElectricCar
+from energy.models.meter_readings import MeterReading
 from energy.models.peak_consumptions import PeakConsumption
 from energy.models.productions import Production
 from energy.models.schedule import ScheduleEntry
@@ -92,6 +93,14 @@ def _modal_fields(table: str, row: dict | None):
         return [
             ui.input_text("mf_date", "Date (YYYY-MM-DD)", value=str(row.get("date", ""))),
             ui.input_numeric("mf_end_soc_kwh", "End-of-day SoC (kWh)", value=float(row.get("end_soc_kwh", 0) or 0)),
+        ]
+
+    if table == "Meter readings":
+        return [
+            ui.input_text("mf_date", "Date (YYYY-MM-DD)", value=str(row.get("date", ""))),
+            ui.input_numeric("mf_hour", "Hour (0..23)", value=int(row.get("hour", 0) or 0), min=0, max=23),
+            ui.input_numeric("mf_imported_kwh", "Imported (kWh)", value=float(row.get("imported_kwh", 0) or 0), min=0.0, step=0.01),
+            ui.input_numeric("mf_exported_kwh", "Exported (kWh)", value=float(row.get("exported_kwh", 0) or 0), min=0.0, step=0.01),
         ]
 
     if table == "Electric cars":
@@ -273,6 +282,15 @@ def setup(inputs, outputs, session, refresh):
                 valid_from=inputs.mf_valid_from(),
                 valid_to=inputs.mf_valid_to(),
                 peak_kw=float(inputs.mf_peak_kw()),
+            )
+
+        if table == "Meter readings":
+            return MeterReading(
+                rec_id=rec_id,
+                date=inputs.mf_date(),
+                hour=int(inputs.mf_hour()),
+                imported_kwh=float(inputs.mf_imported_kwh()),
+                exported_kwh=float(inputs.mf_exported_kwh()),
             )
 
         if table == "Electric cars":
