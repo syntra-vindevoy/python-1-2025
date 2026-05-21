@@ -25,3 +25,13 @@ def e2e(session):
 def lint(session):
     session.run("uv", "run", "ruff", "check", "--fix", "src", "tests")
     session.run("uv", "run", "ruff", "format", "src", "tests")
+
+
+@nox.session(venv_backend="none")
+def db_upgrade(session):
+    session.run("uv", "run", "alembic", "-c", "database/alembic.ini", "upgrade", "head", env={"PYTHONPATH": "src:."})
+
+
+@nox.session(venv_backend="none")
+def db_populate(session):
+    session.run("uv", "run", "python", "-m", "database.populate", env={"PYTHONPATH": "src:."})

@@ -8,6 +8,9 @@ dependencies = [
     "pandas",
     "matplotlib",
     "scipy",
+    "sqlalchemy",
+    "alembic",
+    "psycopg2-binary",
 ]
 
 [dependency-groups]
